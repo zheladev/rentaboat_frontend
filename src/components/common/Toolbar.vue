@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-app-bar
-      app
-
-      color="light-blue lighten-2 blue--text text--darken-4"
-    >
+    <v-app-bar app color="light-blue lighten-2 blue--text text--darken-4">
       <v-toolbar-title class="mr-5">
         {{ appTitle }}
       </v-toolbar-title>
@@ -25,8 +21,7 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text> &nbsp;Log in <v-icon>login</v-icon></v-btn>
-        
+        <v-btn text :to="{ name: 'login'}" exact hidden-sm-and-down> &nbsp;Log in <v-icon>login</v-icon></v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <!-- Add drawer -->
