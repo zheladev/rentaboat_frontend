@@ -2,16 +2,10 @@ import Api from '../../services/api/auth'
 
 const user = JSON.parse(localStorage.getItem('user'));
 const state = {
-    loginInfo: {
-        username: '',
-        password: '',
-    },
     user: user
-    
 }
 
 const getters = {
-    loginInfo: state => state.loginInfo,
     user: state => state.user,
     isLoggedIn: state => state.user !== null,
 }
@@ -21,8 +15,9 @@ const actions = {
         const login = await Api.login(loginInfo);
 
         if (login.status === 200) {
-            commit('loginSuccess', login);
+            commit('loginSuccess', login.user);
         } else {
+            console.log('failed')
             commit('loginFailure');
         }
 

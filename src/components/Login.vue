@@ -8,14 +8,14 @@
         <v-card class="login-form-card" light>
           <v-card-text subheading> Log in to Rentaboat </v-card-text>
           <v-form @submit.prevent>
-            <v-text-field v-model="loginInfo.username" light prepend-icon="person" />
+            <v-text-field v-model="username" light prepend-icon="person" />
             <v-text-field
-              v-model="loginInfo.password"
+              v-model="password"
               light
               prepend-icon="lock"
               type="password"
             ></v-text-field>
-            <v-btn block v-on:click="() => login(loginInfo)" type="submit">Sign in</v-btn>
+            <v-btn block v-on:click="() => login({ username, password })" type="submit">Sign in</v-btn>
           </v-form>
         </v-card>
       </v-flex>
@@ -23,13 +23,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
     name: 'Login',
+    data: () => ({
+        username: '',
+        password: '',
+    }),
     methods: {
         ...mapActions(["login"]),
     },
-    computed: mapGetters(["loginInfo"])
 }
 </script>
 

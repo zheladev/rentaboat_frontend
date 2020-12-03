@@ -5,6 +5,7 @@ import auth from './modules/auth';
 
 // Load Vuex
 Vue.use(Vuex);
+Vue.config.devtools = true;
 
 // Create store
 export default new Vuex.Store({
