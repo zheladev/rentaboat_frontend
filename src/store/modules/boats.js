@@ -1,5 +1,4 @@
-import Axios from "axios"
-
+import Api from '../../services/api/boat';
 
 const state = {
     boats: []
@@ -11,10 +10,8 @@ const getters = {
 
 const actions = {
     async fetchBoats({ commit }) {
-        const response = await Axios.get('http://localhost:3000/boats');
-        console.log(response.data)
-
-        commit('setBoats', response.data);
+        const boats = await Api.getAllBoats();
+        commit('setBoats', boats);
     }
 }
 

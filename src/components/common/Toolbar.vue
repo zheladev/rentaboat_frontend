@@ -21,7 +21,7 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text :to="{ name: 'login'}" exact hidden-sm-and-down> &nbsp;Log in <v-icon>login</v-icon></v-btn>
+        <v-btn text :to="{ name: 'loginPage'}" exact hidden-sm-and-down> &nbsp;Log in <v-icon>login</v-icon></v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <!-- Add drawer -->

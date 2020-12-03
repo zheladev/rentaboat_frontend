@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Landing from '../views/Landing.vue';
-import Login from '../views/Login.vue'
+import LoginPage from '../views/LoginPage.vue'
 
 Vue.use(VueRouter);
 
@@ -21,8 +21,8 @@ const routes = [
   },
   {
       path: '/login',
-      name: 'login',
-      component: Login,
+      name: 'loginPage',
+      component: LoginPage,
   }
 ];
 

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="allBoats.length > 0">
       <v-col
         v-for="boat in allBoats"
         :key="boat.id"
@@ -19,6 +19,9 @@
         By: {{ boat.user.firstName }} {{ boat.user.lastName }}
       </v-col>
     </v-row>
+    <v-row v-else>
+        No boats found.
+    </v-row>
   </v-container>
 </template>
 
@@ -30,7 +33,7 @@ export default {
     ...mapActions(["fetchBoats"]),
   },
   computed: mapGetters(["allBoats"]),
-  created() {
+  mounted() {
     this.fetchBoats();
   }
 };
