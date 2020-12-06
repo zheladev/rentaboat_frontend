@@ -1,6 +1,23 @@
 import Api from '../../services/api/auth'
 
 const user = JSON.parse(localStorage.getItem('user'));
+/**
+{
+    "id": "81765a71-8b06-4fa3-b75b-0bbeddca3ac3",
+    "email": "xxxxx@gmail.com",
+    "username": "zheladev",
+    "firstName": "a",
+    "lastName": "b",
+    "createdAt": "2020-11-26T14:36:00.511Z",
+    "userType": {
+        "id": "51716e52-83f3-4e29-bbf9-ceeefad943cb",
+        "intValue": 0,
+        "name": "admin",
+        "isRegistrable": false,
+        "isAdmin": true
+    }
+}
+ */
 const state = {
     user: user
 }
