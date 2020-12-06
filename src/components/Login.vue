@@ -15,7 +15,7 @@
               prepend-icon="lock"
               type="password"
             ></v-text-field>
-            <v-btn block v-on:click="() => login({ username, password })" type="submit">Sign in</v-btn>
+            <v-btn block v-on:click="doLogin" type="submit">Sign in</v-btn>
           </v-form>
         </v-card>
       </v-flex>
@@ -23,16 +23,36 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'Login',
     data: () => ({
         username: '',
         password: '',
+        hasFailedLogin: false,
     }),
+    computed: {
+        ...mapGetters(["isLoggedIn"]),
+    },
     methods: {
         ...mapActions(["login"]),
+        async doLogin() {
+            const loginInfo = {
+                username: this.username,
+                password: this.password
+            }
+            await this.$store.dispatch('login', loginInfo);
+            console.log(this.isLoggedIn)
+            if (this.isLoggedIn) {
+                this.$router.push('/');
+            }
+        }
     },
+    created() {
+        if(this.isLoggedIn) {
+            this.$router.push('/');
+        }
+    }
 }
 </script>
 

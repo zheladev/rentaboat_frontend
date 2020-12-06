@@ -34,10 +34,10 @@ const actions = {
         if (login.status === 200) {
             commit('loginSuccess', login.user);
         } else {
-            console.log('failed')
+            console.log('Login Failed')
             commit('loginFailure');
         }
-
+        
     },
     async logout({ commit }) {
         Api.logout();

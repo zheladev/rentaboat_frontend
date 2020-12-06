@@ -54,6 +54,9 @@
             <v-list-item
               v-for="(item, index) in userDropdownItems"
               :key="index"
+              link
+              :to="{ name: item.link }"
+              exact
             >
               <v-list-item-icon
                 ><v-icon>{{ item.icon }}</v-icon></v-list-item-icon
@@ -106,6 +109,11 @@ export default {
           link: "settings",
           icon: "settings",
         },
+        {
+            title: "Log out",
+            link: "logout",
+            icon: "exit_to_app"
+        }
       ];
     },
   },
