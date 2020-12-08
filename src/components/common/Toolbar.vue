@@ -1,77 +1,136 @@
 <template>
-  <div>
-    <v-app-bar app color="light-blue lighten-2 blue--text text--darken-4">
+  <v-card>
+    <v-app-bar
+      app
+      color="light-blue lighten-2 blue--text text--darken-4"
+      ref="toolbar"
+    >
+      <v-app-bar-nav-icon
+        @click.stop="isDrawerOpen = !isDrawerOpen"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-5">
         {{ appTitle }}
       </v-toolbar-title>
-
-      <v-toolbar-items>
-        <v-btn
-          text
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :to="{ name: item.link }"
-          exact
-          :class="['hidden-sm-and-down', item.class]"
-        >
-          <v-icon left>{{ item.icon }}</v-icon>
-          &nbsp;{{ item.title }}
-        </v-btn>
-      </v-toolbar-items>
-      <v-spacer></v-spacer>
-      <v-toolbar-items v-if="!isLoggedIn">
-        <v-btn text :to="{ name: 'loginPage' }" exact hidden-sm-and-down>
-          &nbsp;Log in <v-icon>login</v-icon></v-btn
-        >
-      </v-toolbar-items>
-      <div v-else class="align-center">
-        <v-avatar class="white--text" color="purple" size="42">
-          <span
-            >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
+      <div class="navbar hidden-sm-and-down">
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn
+            text
+            v-for="(item, index) in menuItems"
+            :key="index"
+            :to="{ name: item.link }"
+            exact
           >
-        </v-avatar>
-        <v-menu offset-y :close-on-content-click="false">
-          <template v-slot:activator="{ on }">
-            <v-btn text icon v-on="on">
-              <v-icon>arrow_drop_down</v-icon>
-            </v-btn>
-          </template>
-
-          <v-list dense>
-            <!-- Top part of dropdown -->
-            <v-list>
-              <v-list-item>
+            <v-icon left>{{ item.icon }}</v-icon>
+            &nbsp;{{ item.title }}
+          </v-btn>
+        </v-toolbar-items>
+        <v-spacer></v-spacer>
+        <v-toolbar-items v-if="!isLoggedIn">
+          <v-btn text :to="{ name: 'loginPage' }" exact hidden-sm-and-down>
+            &nbsp;Log in <v-icon>login</v-icon></v-btn
+          >
+        </v-toolbar-items>
+        <div
+          v-else
+          class="user-toolbar-item align-center justify-center"
+          block
+          v-on:click="toggleWebUserMenu"
+          ref="userTooltipItem"
+          :class="isWebUserMenuActive ? 'active' : ''"
+        >
+          <v-avatar class="white--text mx-2" color="purple" size="42">
+            <span
+              >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
+            >
+          </v-avatar>
+          <v-icon
+            class="mx-1"
+            :class="isWebUserMenuActive ? 'user-toolbar-icon-active' : ''"
+            >arrow_drop_down</v-icon
+          >
+          <v-menu
+            offset-y
+            :close-on-content-click="false"
+            v-model="isWebUserMenuActive"
+            :position-x="x"
+            :position-y="y"
+          >
+            <v-list dense>
+              <!-- Top part of dropdown -->
+              <v-list>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title class="title">
+                      {{ user.username }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle
+                      >{{ user.firstName }}
+                      {{ user.lastName }}</v-list-item-subtitle
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+              <v-divider></v-divider>
+              <!-- Dropdown links -->
+              <v-list-item
+                v-for="(item, index) in userDropdownItems"
+                :key="index"
+                link
+                :to="{ name: item.link }"
+                exact
+              >
+                <v-list-item-icon
+                  ><v-icon>{{ item.icon }}</v-icon></v-list-item-icon
+                >
                 <v-list-item-content>
-                  <v-list-item-title class="title">
-                    {{ user.username }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>{{user.firstName}} {{user.lastName}}</v-list-item-subtitle>
+                  <!-- add routing -->
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-            <v-divider></v-divider>
-            <!-- Dropdown links -->
-            <v-list-item
-              v-for="(item, index) in userDropdownItems"
-              :key="index"
-              link
-              :to="{ name: item.link }"
-              exact
-            >
-              <v-list-item-icon
-                ><v-icon>{{ item.icon }}</v-icon></v-list-item-icon
-              >
-              <v-list-item-content>
-                <!-- add routing -->
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+          </v-menu>
+        </div>
       </div>
     </v-app-bar>
+    <v-navigation-drawer v-model="isDrawerOpen" app color="white">
+      <v-list-item two-line>
+        <v-list-item-avatar
+          class="white--text justify-center"
+          color="purple"
+          size="42"
+        >
+          <span v-if="isLoggedIn"
+            >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
+          >
+          <span light v-else
+            ><v-icon class="white--text">mdi-account</v-icon></span
+          >
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>{{
+            isLoggedIn ? user.username : "Guest"
+          }}</v-list-item-title>
+          <v-list-item-subtitle>{{
+            isLoggedIn ? "Logged in" : "Discover Rentaboat"
+          }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      <v-list dense>
+        <v-list-item v-for="item in menuItems" :key="item.title">
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <!-- Add drawer -->
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -79,6 +138,11 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     appTitle: "Rentaboat",
+    isDrawerOpen: false,
+    x: 0,
+    y: 0,
+    isWebUserMenuActive: false,
+    isMobileUserMenuActive: false,
   }),
   computed: {
     ...mapGetters(["isLoggedIn", "user"]),
@@ -95,6 +159,12 @@ export default {
           icon: "help_outline",
           class: "btnAbout",
         },
+        {
+          //remove
+          title: "Log out",
+          link: "logout",
+          icon: "exit_to_app",
+        },
       ];
     },
     userDropdownItems() {
@@ -110,15 +180,62 @@ export default {
           icon: "settings",
         },
         {
-            title: "Log out",
-            link: "logout",
-            icon: "exit_to_app"
-        }
+          title: "Log out",
+          link: "logout",
+          icon: "exit_to_app",
+        },
       ];
+    },
+  },
+  methods: {
+    toggleWebUserMenu() {
+      const toolbarBoundingClientRect = this.$refs.toolbar.$el.getBoundingClientRect();
+      const userDivBoundingClientRect = this.$refs.userTooltipItem.getBoundingClientRect();
+      console.log(toolbarBoundingClientRect);
+      console.log(userDivBoundingClientRect);
+      this.x = userDivBoundingClientRect.x;
+      this.y =
+        toolbarBoundingClientRect.y + toolbarBoundingClientRect.height + 1;
+      this.isWebUserMenuActive = !this.isWebUserMenuActive;
     },
   },
 };
 </script>
 
 <style>
+.navbar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.user-toolbar-item {
+  display: flex;
+  position: relative;
+}
+.user-toolbar-item:hover {
+  background-color:#4CBCEE;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0s;
+}
+.user-toolbar-item.active {  
+    background-color: #3789AD;
+  transition: 0.2s cubic-bezier(0.4, 0, 0.6, 1) 0s;
+}
+
+.user-toolbar-icon-active {
+  transform: rotate(-180deg);
+}
+
+.user-toolbar-item:before {
+  position: absolute;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
 </style>
