@@ -7,10 +7,12 @@
     >
       <v-app-bar-nav-icon
         @click.stop="isDrawerOpen = !isDrawerOpen"
+        class="hidden-md-and-up"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title class="mr-5">
+      <v-toolbar-title class="mr-5 app-title">
         {{ appTitle }}
       </v-toolbar-title>
+      <v-spacer></v-spacer>
       <div class="navbar hidden-sm-and-down">
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn
@@ -30,6 +32,7 @@
             &nbsp;Log in <v-icon>login</v-icon></v-btn
           >
         </v-toolbar-items>
+        <!-- Add ripple effect -->
         <div
           v-else
           class="user-toolbar-item align-center justify-center"
@@ -92,44 +95,62 @@
         </div>
       </div>
     </v-app-bar>
-    <v-navigation-drawer v-model="isDrawerOpen" app color="white">
-      <v-list-item two-line>
-        <v-list-item-avatar
-          class="white--text justify-center"
-          color="purple"
-          size="42"
-        >
-          <span v-if="isLoggedIn"
-            >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
-          >
-          <span light v-else
-            ><v-icon class="white--text">mdi-account</v-icon></span
-          >
-        </v-list-item-avatar>
 
-        <v-list-item-content>
-          <v-list-item-title>{{
-            isLoggedIn ? user.username : "Guest"
-          }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            isLoggedIn ? "Logged in" : "Discover Rentaboat"
-          }}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
+    <!-- mobile drawer -->
+    <v-navigation-drawer v-model="isDrawerOpen" app color="white" disable-resize-watcher>
       <v-list dense>
-        <v-list-item v-for="item in menuItems" :key="item.title">
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+        <v-list-item two-line>
+          <v-list-item-avatar
+            class="white--text justify-center"
+            color="purple"
+            size="42"
+          >
+            <span v-if="isLoggedIn"
+              >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
+            >
+            <span light v-else
+              ><v-icon class="white--text">mdi-account</v-icon></span
+            >
+          </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>{{
+              isLoggedIn ? user.username : "Guest"
+            }}</v-list-item-title>
+            <v-list-item-subtitle>{{
+              isLoggedIn ? "Logged in" : "Discover Rentaboat"
+            }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-divider></v-divider>
+        <v-list v-if="!isLoggedIn">
+          <v-list-item v-for="item in menuItems" :key="item.title" link
+                :to="{ name: item.link }"
+                exact>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-list v-else>
+          <v-list-item v-for="item in menuItems.concat(userDropdownItems)" :key="item.title" link
+                :to="{ name: item.link }"
+                exact>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-list>
     </v-navigation-drawer>
-    <!-- Add drawer -->
   </v-card>
 </template>
 
@@ -139,6 +160,7 @@ export default {
   data: () => ({
     appTitle: "Rentaboat",
     isDrawerOpen: false,
+    isDrawerUserMenuOpen: false,
     x: 0,
     y: 0,
     isWebUserMenuActive: false,
@@ -158,12 +180,6 @@ export default {
           link: "about",
           icon: "help_outline",
           class: "btnAbout",
-        },
-        {
-          //remove
-          title: "Log out",
-          link: "logout",
-          icon: "exit_to_app",
         },
       ];
     },
@@ -198,6 +214,16 @@ export default {
         toolbarBoundingClientRect.y + toolbarBoundingClientRect.height + 1;
       this.isWebUserMenuActive = !this.isWebUserMenuActive;
     },
+    toggleMobileUserMenu() {
+      const toolbarBoundingClientRect = this.$refs.toolbar.$el.getBoundingClientRect();
+      const userDivBoundingClientRect = this.$refs.userTooltipItem.getBoundingClientRect();
+      console.log(toolbarBoundingClientRect);
+      console.log(userDivBoundingClientRect);
+      this.x = userDivBoundingClientRect.x;
+      this.y =
+        toolbarBoundingClientRect.y + toolbarBoundingClientRect.height + 1;
+      this.isWebUserMenuActive = !this.isWebUserMenuActive;
+    },
   },
 };
 </script>
@@ -206,6 +232,7 @@ export default {
 .navbar {
   width: 100%;
   height: 100%;
+  margin-left: 20px;
   display: flex;
 }
 .user-toolbar-item {
@@ -213,23 +240,27 @@ export default {
   position: relative;
 }
 .user-toolbar-item:hover {
-  background-color:#4CBCEE;
+  background-color: #4cbcee;
   transition: 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0s;
 }
-.user-toolbar-item.active {  
-    background-color: #3789AD;
+.user-toolbar-item.active {
+  background-color: #3789ad;
   transition: 0.2s cubic-bezier(0.4, 0, 0.6, 1) 0s;
 }
 
 .user-toolbar-icon-active {
   transform: rotate(-180deg);
 }
-
-.user-toolbar-item:before {
+.app-title {
+  overflow: visible !important;
+}
+/* Add ripple effect
+.user-toolbar-item.active::before {
+    content: "a";
   position: absolute;
   transform: scale(0);
   animation: ripple 600ms linear;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 @keyframes ripple {
@@ -237,5 +268,5 @@ export default {
     transform: scale(4);
     opacity: 0;
   }
-}
+} */
 </style>
