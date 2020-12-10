@@ -50,7 +50,7 @@ export default {
         this.$router.push("/");
       } else {
         this.hasFailedLogin = true;
-        this.password="";
+        this.password = "";
       }
     },
   },
