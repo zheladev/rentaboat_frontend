@@ -2,12 +2,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Landing from '../views/Landing.vue';
 import LoginPage from '../views/LoginPage.vue';
-import NotFound from '../views/NotFound.vue';
 import Logout from '../views/Logout.vue';
+import Dashboard from '../views/Dashboard.vue';
+import Settings from '../views/Settings.vue';
+import NotFound from '../views/NotFound.vue';
+import BoatPage from '../views/BoatPage.vue';
+
 
 Vue.use(VueRouter);
 
 const routes = [
+    //common
     {
         path: '/',
         name: 'landing',
@@ -16,9 +21,6 @@ const routes = [
     {
         path: '/about',
         name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     },
     {
@@ -27,19 +29,29 @@ const routes = [
         component: LoginPage,
     },
     {
+        path: '/logout',
+        name: 'logout',
+        component: Logout,
+    },
+    {
+        path: '/boat/:id',
+        name: 'boat',
+        component: BoatPage,
+    },
+    //user
+    {
         path: '/dashboard',
         name: 'dashboard',
-        component: NotFound, //change
+        component: Dashboard,
     },
     {
         path: '/settings',
         name: 'settings',
-        component: NotFound, //change
+        component: Settings,
     },
     {
-        path: '/logout',
-        name: 'logout',
-        component: Logout, //change
+        path: '*',
+        component: NotFound,
     }
 ];
 

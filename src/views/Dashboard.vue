@@ -1,6 +1,5 @@
 <template>
   <v-container>
-      <h1>404 page not found.</h1>
+      <h1>This is a dashboard</h1>
   </v-container>
 </template>
-

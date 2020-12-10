@@ -17,16 +17,15 @@
         {{ boat.pricePerDay }}$ a day
         <v-spacer />
         By: {{ boat.user.firstName }} {{ boat.user.lastName }}
+        <v-btn text :to="{ name: 'boat', params: { id: boat.id } }">Go</v-btn>
       </v-col>
     </v-row>
-    <v-row v-else>
-        No boats found.
-    </v-row>
+    <v-row v-else> No boats found. </v-row>
   </v-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "BoatGrid",
   methods: {
@@ -35,7 +34,7 @@ export default {
   computed: mapGetters(["allBoats"]),
   mounted() {
     this.fetchBoats();
-  }
+  },
 };
 </script>
 
