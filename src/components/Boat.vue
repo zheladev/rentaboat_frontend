@@ -12,7 +12,6 @@
 </template>
 
 <script>
-//pass id on props
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Boat",
