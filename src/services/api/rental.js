@@ -8,8 +8,13 @@ const getRentalsByBoat = async (id) => {
     return response.data;
 }
 
-const getRentalsByRenter = async (id) => {
-    const response = await Axios.get(`${API_URL}renter/${id}`, { headers: await authHeader() });
+const getRentalsByOwner = async (id) => {
+    const response = await Axios.get(`${API_URL}owner/${id}`, { headers: await authHeader() });
+    return response.data;
+}
+
+const getRentalsByUser = async (id) => {
+    const response  = await Axios.get(`${API_URL}user/${id}`, { headers: await authHeader() });
     return response.data;
 }
 
@@ -21,6 +26,7 @@ const postRental = async (rentalData) => {
 
 export default {
     getRentalsByBoat,
-    getRentalsByRenter,
+    getRentalsByOwner,
+    getRentalsByUser,
     postRental,
 }

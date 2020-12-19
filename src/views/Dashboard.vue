@@ -11,6 +11,9 @@
       v-else-if="(user.userType.intValue === 3)"
     ></client-dashboard>
     <h1 v-else>You're not supposed to be here.</h1>
+    <!-- remove -->
+    <client-dashboard></client-dashboard>
+    
   </v-container>
 </template>
 

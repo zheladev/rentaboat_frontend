@@ -82,3 +82,9 @@
   background-color: rgb(206, 217, 226);
 }
 </style>
+
+<style>
+.v-parallax__content {
+    padding: 0px 0px !important;
+}
+</style>

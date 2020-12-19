@@ -1,6 +1,6 @@
 <template>
   <v-footer
-    class="d-block text-center"
+    class="d-block text-center grey darken-4 grey--text text--lighten-3"
   >
     <div flex>
       v{{ appVersion }} - By Rentaboat

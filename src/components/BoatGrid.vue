@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-row v-if="allBoats.length > 0">
+    <v-row v-if="boats.length > 0">
       <v-col
-        v-for="boat in allBoats"
-        :key="boat.id"
+        v-for="(boat, idx) in boats"
+        :key="idx"
         cols="10"
         sm="6"
         md="4"
@@ -12,7 +12,7 @@
         <v-img
           src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
         />
-        {{ boat.shipyard.name.substring(1, 5) }}
+        {{ boat.name }}
         <v-spacer />
         {{ boat.pricePerDay }}$ a day
         <v-spacer />
@@ -25,16 +25,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 export default {
   name: "BoatGrid",
-  methods: {
-    ...mapActions(["fetchBoats"]),
-  },
-  computed: mapGetters(["allBoats"]),
-  mounted() {
-    this.fetchBoats();
-  },
+  props: ['boats'],
 };
 </script>
 
