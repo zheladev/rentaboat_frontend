@@ -1,6 +1,5 @@
 <template>
-  <v-container>
-    <h1>This is a boat with id {{id}}</h1>
+  <v-container fluid pa-0>
     <boat :id="id"/>
   </v-container>
 </template>
