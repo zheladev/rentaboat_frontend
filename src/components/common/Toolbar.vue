@@ -215,8 +215,6 @@ export default {
     toggleWebUserMenu() {
       const toolbarBoundingClientRect = this.$refs.toolbar.$el.getBoundingClientRect();
       const userDivBoundingClientRect = this.$refs.userTooltipItem.getBoundingClientRect();
-      console.log(toolbarBoundingClientRect);
-      console.log(userDivBoundingClientRect);
       this.x = userDivBoundingClientRect.x;
       this.y =
         toolbarBoundingClientRect.y + toolbarBoundingClientRect.height + 1;
@@ -225,8 +223,6 @@ export default {
     toggleMobileUserMenu() {
       const toolbarBoundingClientRect = this.$refs.toolbar.$el.getBoundingClientRect();
       const userDivBoundingClientRect = this.$refs.userTooltipItem.getBoundingClientRect();
-      console.log(toolbarBoundingClientRect);
-      console.log(userDivBoundingClientRect);
       this.x = userDivBoundingClientRect.x;
       this.y =
         toolbarBoundingClientRect.y + toolbarBoundingClientRect.height + 1;

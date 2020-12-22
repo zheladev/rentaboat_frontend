@@ -193,7 +193,7 @@
                       no-title
                       scrollable
                       :min="new Date().toISOString().split('T')[0]"
-                      @click:date="$refs.startDateMenu.save(startDate); startDate > endDate ? endDate = startDate : ''"
+                      @click:date="$refs.startDateMenu.save(startDate); startDate > endDate ? endDate = startDate : '' /*I hate myself*/" 
                       :allowed-dates="allowedDates(datePickerFormattedNotAllowedDates)"
                     >
                       <div class="flex-grow-1"></div>
@@ -386,7 +386,6 @@ export default {
         d2 = new Date(this.endDate);
 
       const days = Math.floor((d2 - d1) / _MS_PER_DAY) + 1;
-      console.log(days)
       return basePrice * days;
     },
   },
