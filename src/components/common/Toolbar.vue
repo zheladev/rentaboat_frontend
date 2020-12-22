@@ -135,6 +135,14 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item link :to="{ name: 'loginPage' }" exact>
+              <v-list-item-icon>
+                  <v-icon>login</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                  <v-list-item-title>Log in</v-list-item-title>
+              </v-list-item-content>
+          </v-list-item>
         </v-list>
         <v-list v-else>
           <v-list-item v-for="item in menuItems.concat(userDropdownItems)" :key="item.title" link

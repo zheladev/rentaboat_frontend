@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid pa-0>
+  <v-container fluid py-0>
     <boat :id="id"/>
   </v-container>
 </template>
