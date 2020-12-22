@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-const API_URL = 'http://localhost:3000/auth/' //move to env
+const API_URL = `${process.env.VUE_APP_API_URL}auth/`
 
 const login = async (loginInfo) => {
     try {

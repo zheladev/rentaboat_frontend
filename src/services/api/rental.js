@@ -1,7 +1,7 @@
 import Axios from "axios";
 import authHeader from '../auth-header'
 
-const API_URL = 'http://localhost:3000/rentals/' //move to env
+const API_URL = `${process.env.VUE_APP_API_URL}rentals/` //move to env
 
 const getRentalsByBoat = async (id) => {
     const response = await Axios.get(`${API_URL}boat/${id}`, { headers: await authHeader() });
