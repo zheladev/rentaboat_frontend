@@ -1,64 +1,35 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Landing from '../views/Landing.vue';
-import LoginPage from '../views/LoginPage.vue';
-import Logout from '../views/Logout.vue';
-import Dashboard from '../views/Dashboard.vue';
-import Settings from '../views/Settings.vue';
-import NotFound from '../views/NotFound.vue';
-import BoatPage from '../views/BoatPage.vue';
-
+import routes from './routes';
+import store from '@/store';
+import AUTH_LEVELS from './consts';
 
 Vue.use(VueRouter);
-
-const routes = [
-    //common
-    {
-        path: '/',
-        name: 'landing',
-        component: Landing,
-    },
-    {
-        path: '/about',
-        name: 'about',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-    },
-    {
-        path: '/login',
-        name: 'loginPage',
-        component: LoginPage,
-    },
-    {
-        path: '/logout',
-        name: 'logout',
-        component: Logout,
-    },
-    {
-        path: '/boat/:id',
-        name: 'boat',
-        component: BoatPage,
-    },
-    //user
-    {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard,
-    },
-    {
-        path: '/settings',
-        name: 'settings',
-        component: Settings,
-    },
-    {
-        path: '*',
-        component: NotFound,
-    }
-];
 
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+    const user = store.state.auth.user;
+    const isLoggedIn = store.state.auth.isLoggedIn;
+    console.log(user)
+
+    if(to.meta.authLevel >= AUTH_LEVELS.PUBLIC) {
+        next();
+    } else {
+        if (!isLoggedIn) {
+            next({ path: '/login' });
+        } else {
+            if (user.userType.intValue > to.meta.authLevel) {
+                next({ path: '/forbidden' });
+            } else {
+                next();
+            }
+        }
+    }
 });
 
 export default router;

@@ -285,6 +285,8 @@
               <v-col class="text-center">
                 <!-- change color -->
                 <v-btn class="light-blue darken-2 grey--text text--lighten-4"
+                    link
+                    :to="{ name: 'rentalPayment', params: { boatId: id }, query: { startDate: startDate, endDate: endDate } }"
                   >Proceed with rental</v-btn
                 >
               </v-col>

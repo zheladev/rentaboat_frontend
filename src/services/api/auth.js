@@ -6,7 +6,6 @@ const login = async (loginInfo) => {
     try {
         const response = await Axios.post(`${API_URL}login/`, loginInfo);
         const user = response.data;
-        console.log(response)
         const authToken = response.headers['x-access-token'];
     
         //move to mutation?

@@ -19,12 +19,13 @@ const user = JSON.parse(localStorage.getItem('user'));
 }
  */
 const state = {
-    user: user
+    user: user,
+    isLoggedIn: user !== null,
 }
 
 const getters = {
     user: state => state.user,
-    isLoggedIn: state => state.user !== null,
+    isLoggedIn: state => state.isLoggedIn,
 }
 
 const actions = {
@@ -34,7 +35,6 @@ const actions = {
         if (login.status === 200) {
             commit('loginSuccess', login.user);
         } else {
-            console.log('Login Failed')
             commit('loginFailure');
         }
         
@@ -48,14 +48,17 @@ const actions = {
 const mutations = {
     loginSuccess(state, user) {
         state.user = user;
+        state.isLoggedIn = true;
     },
 
     loginFailure(state) {
         state.user = null;
+        state.isLoggedIn = false;
     },
 
     logout(state) {
         state.user = null;
+        state.isLoggedIn = false;
     }
 }
 
