@@ -5,7 +5,7 @@
   >
     <div flex>
       v{{ appVersion }} - By Rentaboat
-      <v-icon small class="red--text mx-0 px-0">mdi-cards-heart</v-icon>
+      <!-- <v-icon small class="red--text mx-0 px-0">mdi-cards-heart</v-icon> -->
     </div>
   </v-footer>
 </template>
