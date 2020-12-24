@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-app-bar
+      clipped-left
       app
       color="light-blue lighten-2 blue--text text--darken-4"
       ref="toolbar"
@@ -97,7 +98,12 @@
     </v-app-bar>
 
     <!-- mobile drawer -->
-    <v-navigation-drawer v-model="isDrawerOpen" app color="white" disable-resize-watcher>
+    <v-navigation-drawer
+      v-model="isDrawerOpen"
+      app
+      color="white"
+      disable-resize-watcher
+    >
       <v-list dense>
         <v-list-item two-line>
           <v-list-item-avatar
@@ -124,9 +130,13 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list v-if="!isLoggedIn">
-          <v-list-item v-for="item in menuItems" :key="item.title" link
-                :to="{ name: item.link }"
-                exact>
+          <v-list-item
+            v-for="item in menuItems"
+            :key="item.title"
+            link
+            :to="{ name: item.link }"
+            exact
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -136,18 +146,22 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item link :to="{ name: 'loginPage' }" exact>
-              <v-list-item-icon>
-                  <v-icon>login</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                  <v-list-item-title>Log in</v-list-item-title>
-              </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon>login</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Log in</v-list-item-title>
+            </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-list v-else>
-          <v-list-item v-for="item in menuItems.concat(userDropdownItems)" :key="item.title" link
-                :to="{ name: item.link }"
-                exact>
+          <v-list-item
+            v-for="item in menuItems.concat(userDropdownItems)"
+            :key="item.title"
+            link
+            :to="{ name: item.link }"
+            exact
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -242,6 +256,7 @@ export default {
 .user-toolbar-item {
   display: flex;
   position: relative;
+  cursor: pointer;
 }
 .user-toolbar-item:hover {
   background-color: #4cbcee;

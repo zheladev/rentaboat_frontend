@@ -1,5 +1,6 @@
 <template>
   <v-footer
+  app
     class="d-block text-center grey darken-4 grey--text text--lighten-3"
   >
     <div flex>

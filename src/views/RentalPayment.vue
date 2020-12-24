@@ -1,5 +1,6 @@
 <template>
   <v-container>
+      Process rental payment and commit it to backend here
       {{boatId}}, {{startDate}}, {{endDate}}
   </v-container>
 </template>
