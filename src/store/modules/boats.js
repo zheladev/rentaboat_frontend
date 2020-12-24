@@ -18,6 +18,7 @@ const actions = {
     async fetchBoatById({ commit }, id) {
         let boat = {};
         const inMemBoatArr = state.boats.filter(b => b.id === id);
+        //TODO: fetch data again if X time has passed
         if (inMemBoatArr.length > 0) {
             boat = inMemBoatArr[0];
         } else {

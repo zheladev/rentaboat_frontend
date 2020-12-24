@@ -9,6 +9,7 @@
         md="4"
         lg="3"
       >
+      <!-- TODO: use boat image -->
         <v-img
           src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
         />

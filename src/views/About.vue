@@ -13,7 +13,7 @@
     </v-parallax>
     <v-container fluid class="content-container no-padding">
       <v-container fluid class="even">
-        <h2>Concept</h2>
+        <div class="display-1 py-2">Concept</div>
         <p>
           At Rentaboat, our goal is to connect people with matching necessities.
         </p>
@@ -24,7 +24,7 @@
       </v-container>
       <v-divider></v-divider>
       <v-container fluid class="odd">
-        <h2>Motivation</h2>
+        <div class="display-1 py-2">Motivation</div>
         <p>I just want my degree, maaaaaaan.</p>
       </v-container>
       <v-divider></v-divider>
@@ -39,19 +39,19 @@
       </v-container>
       <v-divider></v-divider>
       <v-container fluid class="odd">
-        <h2>What do we want?</h2>
+        <div class="display-1 py-2">What do we want?</div>
         <p>
           The gradual phase-out of animal testing over the next three years.
         </p>
       </v-container>
       <v-divider></v-divider>
       <v-container fluid class="even">
-        <h2>When do we want it?</h2>
+        <div class="display-1 py-2">When do we want it?</div>
         <p>Over the next three years.</p>
       </v-container>
       <v-divider></v-divider>
       <v-container fluid class="odd">
-        <h2>About the author.</h2>
+        <div class="display-1 py-2">About the author</div>
         <p>Zhel is a pretty cool guy — Someone, sometime.</p>
       </v-container>
     </v-container>

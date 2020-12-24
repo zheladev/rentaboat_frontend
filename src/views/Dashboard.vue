@@ -1,7 +1,5 @@
 <template>
-  <v-container>
       <client-dashboard></client-dashboard>
-  </v-container>
 </template>
 
 <script>

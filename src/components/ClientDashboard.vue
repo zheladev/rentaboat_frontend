@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid pa-0>
     <v-navigation-drawer app clipped :mini-variant.sync="mini" permanent expand-on-hover>
       <v-list nav dense>
         <v-list-item
@@ -71,6 +71,8 @@ export default {
   },
   mounted() {
     this.fetchRentalsByUser(this.user.id);
+    //prevent child view from being overlapped by nav drawer
+    this.$forceUpdate(); 
     this.isLoaded = true;
   },
 };

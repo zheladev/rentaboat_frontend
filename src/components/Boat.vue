@@ -47,7 +47,7 @@
                 </v-row>
               </v-container>
             </v-img>
-            <div class="text-h2 text-capitalize text-left">
+            <div class="display-3 text-capitalize text-left">
               {{ currBoat.name }}
             </div>
           </v-container>
