@@ -15,6 +15,7 @@
                 no-gutters
                 fill-height
               >
+              <!-- fix for smaller views -->
                 <v-row>
                   <v-col class="align-center justify-center">
                     <v-container>
@@ -47,7 +48,7 @@
                 </v-row>
               </v-container>
             </v-img>
-            <div class="display-3 text-capitalize text-left">
+            <div class="display-2 text-capitalize text-left">
               {{ currBoat.name }}
             </div>
           </v-container>

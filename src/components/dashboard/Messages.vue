@@ -8,8 +8,7 @@
               <v-divider v-if="index > 0 && index < chats.length" :key="`${index}-divider`"></v-divider>
             <v-list-item :key="index">
               <v-list-item-avatar>
-                <v-img
-                  src="https://i1.sndcdn.com/avatars-000411292317-dt2f28-t500x500.jpg"
+                <v-img :src="getChatParticipantImage(chat)"
                 ></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
@@ -45,6 +44,7 @@ export default {
           firstName: "Billy",
           lastName: "Herrington",
           id: "7e82ace5-feff-432d-82bb-ecff7236257a",
+          img: "https://i1.sndcdn.com/avatars-000411292317-dt2f28-t500x500.jpg"
         },
         receiver: {
           firstName: "Aitor",
@@ -74,6 +74,7 @@ export default {
           firstName: "Danny",
           lastName: "Lee",
           id: "7e82ace5-feff-436d-82bb-ecff723d257a",
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFKq_dob_bJC40ba4x6mrNelFI0kVA5L-3Ow&usqp=CAU"
         },
         createdAt: "2020-12-15T00:00:00.001Z",
         lastMessage: {
@@ -100,6 +101,9 @@ export default {
       }
       return fullName;
     },
+    getChatParticipantImage(chat) {
+        return chat.creator.id === this.user.id ? chat.receiver.img : chat.creator.img;
+    }
   },
 };
 </script>

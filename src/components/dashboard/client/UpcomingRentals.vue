@@ -38,9 +38,9 @@
               offset-y
               :position-x="x"
               :position-y="y"
-              max-width="350px"
+              max-width="360px"
             >
-              <v-card color="grey lighten-4" max-width="350px" flat>
+              <v-card color="grey lighten-4" max-width="360px" flat>
                 <!-- TODO: use boat image -->
                 <v-img
                   src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
@@ -53,7 +53,7 @@
                       : ""
                   }}
                 </v-card-title>
-
+                <v-divider></v-divider>
                 <v-card-subtitle>
                   {{
                     selectedEvent.rental !== undefined
@@ -62,6 +62,7 @@
                   }}
                 </v-card-subtitle>
                 <v-card-subtitle>
+                    <v-icon class="location-icon">location_on</v-icon>
                   {{
                     selectedEvent.rental !== undefined
                       ? selectedEvent.rental.boat.port.name
@@ -198,5 +199,8 @@ export default {
 }
 .content-section-container {
   padding: 2em 2em 1em 2em;
+}
+.location-icon {
+    vertical-align: -7px;
 }
 </style>
