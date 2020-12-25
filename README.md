@@ -47,4 +47,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 - [ ] Admin dashboard
   - [ ] Support Ticket system
-  - [ ] users (create support accounts, ban users, basically a CRUD)
+  - [ ] users (create support accounts, ban users, update records manually, basically a CRUD)
