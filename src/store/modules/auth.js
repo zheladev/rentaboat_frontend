@@ -21,11 +21,13 @@ const user = JSON.parse(localStorage.getItem('user'));
 const state = {
     user: user,
     isLoggedIn: user !== null,
+    successfulRegistration: false,
 }
 
 const getters = {
     user: state => state.user,
     isLoggedIn: state => state.isLoggedIn,
+    hasSuccessfullyRegistered: state => state.successfulRegistration,
 }
 
 const actions = {
@@ -42,6 +44,14 @@ const actions = {
     async logout({ commit }) {
         Api.logout();
         commit('logout');
+    },
+    async signup({ commit }, registrationInfo) {
+        const registrationStatus = await Api.register(registrationInfo);
+        if (registrationStatus.status === 200) {
+            commit('registrationSuccess');
+        } else {
+            commit('registrationFailure');
+        }
     }
 }
 
@@ -59,6 +69,14 @@ const mutations = {
     logout(state) {
         state.user = null;
         state.isLoggedIn = false;
+    },
+
+    registrationSuccess(state) {
+        state.successfulRegistration = true;
+    },
+
+    registrationFailure(state) {
+        state.successfulRegistration = false;
     }
 }
 

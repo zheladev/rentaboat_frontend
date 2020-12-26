@@ -29,8 +29,13 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!isLoggedIn">
+            <v-btn text :to="{ name: 'signupPage' }" exact hidden-sm-and-down>
+            <span class="mx-1">Sign up </span>
+            <v-icon>mdi-account-plus</v-icon></v-btn
+          >
           <v-btn text :to="{ name: 'loginPage' }" exact hidden-sm-and-down>
-            &nbsp;Log in <v-icon>login</v-icon></v-btn
+            <span class="mx-1">Log in </span>
+            <v-icon>login</v-icon></v-btn
           >
         </v-toolbar-items>
         <!-- Add ripple effect -->
@@ -151,6 +156,14 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Log in</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link :to="{ name: 'signupPage' }" exact>
+            <v-list-item-icon>
+              <v-icon>mdi-account-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Sign up</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
