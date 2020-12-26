@@ -8,8 +8,13 @@
       <v-card class="login-form-card" light>
         <v-card-text subheading> Log in to Rentaboat </v-card-text>
         <v-form @submit.prevent>
-          <v-text-field v-model="username" light prepend-icon="person" />
+          <v-text-field 
+            placeholder="Username" 
+            v-model="username" 
+            light 
+            prepend-icon="person" />
           <v-text-field
+          placeholder="Password"
             v-model="password"
             light
             prepend-icon="lock"

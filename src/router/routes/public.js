@@ -4,6 +4,7 @@ import Logout from '@/views/Logout.vue';
 import NotFound from '@/views/NotFound.vue';
 import BoatPage from '@/views/BoatPage.vue';
 import About from '@/views/About.vue';
+import SignupPage from '@/views/SignupPage.vue';
 import AUTH_LEVELS from '../consts';
 
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
         path: '/login',
         name: 'loginPage',
         component: LoginPage,
+    },
+    {
+        path: '/signup',
+        name: 'signupPage',
+        component: SignupPage,
     },
     {
         path: '/logout',
