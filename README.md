@@ -32,7 +32,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## TODO
 
-- [ ] Registration page
+- [x] Registration page
 - [ ] Rental payment page
 - [ ] User dashboard
   - [ ] overview
