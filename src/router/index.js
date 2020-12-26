@@ -15,7 +15,6 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
     const user = store.state.auth.user;
     const isLoggedIn = store.state.auth.isLoggedIn;
-    console.log(user)
 
     if(to.meta.authLevel >= AUTH_LEVELS.PUBLIC) {
         next();
