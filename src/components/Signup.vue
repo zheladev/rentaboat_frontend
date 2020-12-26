@@ -30,28 +30,27 @@
           <v-row>
             <v-col cols="5 py-0">
               <v-text-field
-            v-model="firstName"
-            :error-messages="firstNameErrors"
-            prepend-icon="perm_contact_calendar"
-            placeholder="First name"
-            required
-            @input="$v.firstName.$touch()"
-            @blur="$v.firstName.$touch()"
-          />
+                v-model="firstName"
+                :error-messages="firstNameErrors"
+                prepend-icon="perm_contact_calendar"
+                placeholder="First name"
+                required
+                @input="$v.firstName.$touch()"
+                @blur="$v.firstName.$touch()"
+              />
             </v-col>
             <v-col cols="7 py-0">
               <v-text-field
-            v-model="lastName"
-            :error-messages="lastNameErrors"
-            placeholder="Last name"
-            required
-            @input="$v.lastName.$touch()"
-            @blur="$v.lastName.$touch()"
-          />
+                v-model="lastName"
+                :error-messages="lastNameErrors"
+                placeholder="Last name"
+                required
+                @input="$v.lastName.$touch()"
+                @blur="$v.lastName.$touch()"
+              />
             </v-col>
           </v-row>
-          
-          
+
           <v-text-field
             v-model="address"
             :error-messages="addressErrors"
@@ -96,6 +95,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email, sameAs } from "vuelidate/lib/validators";
+import { mapActions, mapGetters } from "vuex";
 export default {
   mixins: [validationMixin],
   name: "Signup",
@@ -110,7 +110,7 @@ export default {
       repeatPassword: "",
     };
   },
-  validations: {
+  validations: { //TODO: properly set constraints for fields
     email: { required, email },
     username: { required },
     firstName: { required },
@@ -120,6 +120,7 @@ export default {
     repeatPassword: { required, sameAsPassword: sameAs("password") },
   },
   computed: {
+    ...mapGetters(["hasSuccessfullyRegistered"]),
     usernameErrors() {
       const errors = [];
       if (!this.$v.username.$dirty) return errors;
@@ -168,13 +169,29 @@ export default {
     },
   },
   methods: {
-    submit() {
+    ...mapActions(["signup"]),
+    async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.password = '';
-        this.repeatPassword = '';
+        this.password = "";
+        this.repeatPassword = "";
       } else {
-        console.log('nice')
+        //validated
+        await this.signup({
+          email: this.email,
+          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          address: this.address,
+          password: this.password,
+          userType: 3,
+        });
+        if (this.hasSuccessfullyRegistered) {
+          this.$router.push("/login");
+        } else {
+          //TODO: handle registration failure
+          console.log("something went wrong dude");
+        }
       }
     },
     clear() {

@@ -24,8 +24,19 @@ const login = async (loginInfo) => {
             authToken: null
         }
     }
+}
 
-
+const register = async (registerInfo) => {
+    try {
+        const response = await Axios.post(`${API_URL}register/`, registerInfo);
+        return {
+            status: response.status,
+        };
+    } catch(error) {
+        return {
+            status: error.response.status,
+        }
+    }
 }
 
 const logout = () => {
@@ -36,5 +47,6 @@ const logout = () => {
 
 export default {
     login,
-    logout
+    logout,
+    register,
 }
