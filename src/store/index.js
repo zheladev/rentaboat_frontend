@@ -3,6 +3,7 @@ import Vue from 'vue';
 import boats from './modules/boats';
 import auth from './modules/auth';
 import rentals from './modules/rentals';
+import settings from './modules/settings';
 
 // Load Vuex
 Vue.use(Vuex);
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     boats,
     auth,
     rentals,
+    settings
   }
 });
