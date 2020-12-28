@@ -1,9 +1,9 @@
-import Landing from '@/views/Landing.vue';
+import Landing from '@/views/LandingPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
-import Logout from '@/views/Logout.vue';
-import NotFound from '@/views/NotFound.vue';
+import Logout from '@/views/LogoutPage.vue';
+import NotFound from '@/views/NotFoundPage.vue';
 import BoatPage from '@/views/BoatPage.vue';
-import About from '@/views/About.vue';
+import About from '@/views/AboutPage.vue';
 import SignupPage from '@/views/SignupPage.vue';
 import AUTH_LEVELS from '../consts';
 
