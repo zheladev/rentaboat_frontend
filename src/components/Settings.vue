@@ -31,7 +31,7 @@ export default {
     menuItems: [
       {
         title: "General",
-        link: "generalSettings",
+        link: "settings",
         icon: "settings",
       },
       {

@@ -52,7 +52,7 @@ const routes = [
     },
     {
         path: '/settings',
-        name: 'settings',
+        name: '',
         component: Settings,
         meta: {
             authLevel: AUTH_LEVELS.USER,
@@ -60,7 +60,7 @@ const routes = [
         children: [
             {
                 path: '',
-                name: 'generalSettings',
+                name: 'settings',
                 component: General,
             },
             {
