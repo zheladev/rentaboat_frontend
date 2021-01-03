@@ -508,7 +508,7 @@ export default {
       return Math.ceil(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
     },
     userBillingInfo() {
-      //fetch from db once implemented
+      //fetch from backend once implemented
       return [
         {
           address: "C/ Falsa 123 5",
@@ -553,6 +553,9 @@ export default {
         };
       }
     },
+    createRental() {
+        
+    }
   },
   async mounted() {
     await this.fetchBoatById(this.boatId);
