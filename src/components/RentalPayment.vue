@@ -1,0 +1,485 @@
+<template>
+  <div>
+    <v-row class="stretch" no-gutters>
+      <v-col xs="12" md="8">
+        <v-sheet class="payment-sheet grey lighten-4 pa-2">
+          <v-expansion-panels v-model="panel" multiple>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                Billing information
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+                  <v-col>
+                    <v-slide-group v-model="slideModel" show-arrows>
+                      <!-- Get billing infos from user and show preview here -->
+                      <v-slide-item
+                        v-for="(billingInfo, i) in userBillingInfo"
+                        :key="i"
+                        v-slot="{ toggle }"
+                      >
+                        <v-card
+                          class="ma-4 grey lighten-3"
+                          height="150"
+                          width="200"
+                          mx-0
+                          @click="toggle"
+                        >
+                          <v-row
+                            class="billing-card fill-height grey--text text--darken-2 mx-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-container
+                              no-gutters
+                              class="pl-10"
+                              justify="center"
+                              align="center"
+                            >
+                              <div class="text-truncate">
+                                {{ billingInfo.address }}
+                              </div>
+                              <div>
+                                {{ billingInfo.zipCode }} {{ billingInfo.city }}
+                              </div>
+                              <div>{{ billingInfo.country }}</div>
+                            </v-container>
+                          </v-row>
+                        </v-card>
+                      </v-slide-item>
+                      <v-slide-item v-slot="{ toggle }">
+                        <v-card
+                          class="ma-4 grey lighten-3"
+                          height="150"
+                          width="200"
+                          mx-0
+                          @click="toggle"
+                        >
+                          <v-row
+                            class="fill-height mx-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-icon
+                              color="grey"
+                              size="48"
+                              v-text="'add'"
+                            ></v-icon>
+                          </v-row>
+                        </v-card>
+                      </v-slide-item>
+                    </v-slide-group>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <form @submit.prevent>
+                      <v-row>
+                        <v-col>
+                          <v-text-field
+                            v-model="billingInfo.address"
+                            label="Address"
+                            required
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="4">
+                          <v-text-field
+                            v-model="billingInfo.zipCode"
+                            label="Zip Code"
+                          />
+                        </v-col>
+                        <v-col>
+                          <v-text-field
+                            v-model="billingInfo.city"
+                            label="City"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col>
+                          <v-select
+                            v-model="billingInfo.country"
+                            :items="countryList"
+                            label="Country"
+                          />
+                        </v-col>
+                      </v-row>
+                    </form>
+                  </v-col>
+                </v-row>
+                {{ billingInfo }}
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header> Payment </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-expansion-panels accordion>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header
+                      >Credit Card</v-expansion-panel-header
+                    >
+                    <v-expansion-panel-content
+                      >NOT IMPLEMENTED</v-expansion-panel-content
+                    >
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>Paypal</v-expansion-panel-header>
+                    <v-expansion-panel-content
+                      >NOT IMPLEMENTED</v-expansion-panel-content
+                    >
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-sheet>
+      </v-col>
+      <v-divider vertical class="hidden-sm-and-down"></v-divider>
+      <v-col class="hidden-sm-and-down grey lighten-4"> 
+          <v-sheet class="ma-4" elevation="1">
+              Order Summary
+              <v-divider></v-divider>
+              blah blah blah
+              <v-divider></v-divider>
+              total
+              <v-divider></v-divider>
+              you saved X
+          </v-sheet>
+        <div class="text-center">
+            <v-btn class="text-center" rounded color="green" dark>
+              Rent boat
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  name: "RentalPayment",
+  data: () => ({
+    panel: [0],
+    slideModel: null,
+    billingInfo: {
+      address: "",
+      zipCode: "",
+      city: "",
+      country: "",
+    },
+    countryList: [
+      "Afghanistan",
+      "Albania",
+      "Algeria",
+      "American Samoa",
+      "Andorra",
+      "Angola",
+      "Anguilla",
+      "Antarctica",
+      "Antigua and Barbuda",
+      "Argentina",
+      "Armenia",
+      "Aruba",
+      "Australia",
+      "Austria",
+      "Azerbaijan",
+      "Bahamas (the)",
+      "Bahrain",
+      "Bangladesh",
+      "Barbados",
+      "Belarus",
+      "Belgium",
+      "Belize",
+      "Benin",
+      "Bermuda",
+      "Bhutan",
+      "Bolivia (Plurinational State of)",
+      "Bonaire, Sint Eustatius and Saba",
+      "Bosnia and Herzegovina",
+      "Botswana",
+      "Bouvet Island",
+      "Brazil",
+      "British Indian Ocean Territory (the)",
+      "Brunei Darussalam",
+      "Bulgaria",
+      "Burkina Faso",
+      "Burundi",
+      "Cabo Verde",
+      "Cambodia",
+      "Cameroon",
+      "Canada",
+      "Cayman Islands (the)",
+      "Central African Republic (the)",
+      "Chad",
+      "Chile",
+      "China",
+      "Christmas Island",
+      "Cocos (Keeling) Islands (the)",
+      "Colombia",
+      "Comoros (the)",
+      "Congo (the Democratic Republic of the)",
+      "Congo (the)",
+      "Cook Islands (the)",
+      "Costa Rica",
+      "Croatia",
+      "Cuba",
+      "Curaçao",
+      "Cyprus",
+      "Czechia",
+      "Côte d'Ivoire",
+      "Denmark",
+      "Djibouti",
+      "Dominica",
+      "Dominican Republic (the)",
+      "Ecuador",
+      "Egypt",
+      "El Salvador",
+      "Equatorial Guinea",
+      "Eritrea",
+      "Estonia",
+      "Eswatini",
+      "Ethiopia",
+      "Falkland Islands (the) [Malvinas]",
+      "Faroe Islands (the)",
+      "Fiji",
+      "Finland",
+      "France",
+      "French Guiana",
+      "French Polynesia",
+      "French Southern Territories (the)",
+      "Gabon",
+      "Gambia (the)",
+      "Georgia",
+      "Germany",
+      "Ghana",
+      "Gibraltar",
+      "Greece",
+      "Greenland",
+      "Grenada",
+      "Guadeloupe",
+      "Guam",
+      "Guatemala",
+      "Guernsey",
+      "Guinea",
+      "Guinea-Bissau",
+      "Guyana",
+      "Haiti",
+      "Heard Island and McDonald Islands",
+      "Holy See (the)",
+      "Honduras",
+      "Hong Kong",
+      "Hungary",
+      "Iceland",
+      "India",
+      "Indonesia",
+      "Iran (Islamic Republic of)",
+      "Iraq",
+      "Ireland",
+      "Isle of Man",
+      "Israel",
+      "Italy",
+      "Jamaica",
+      "Japan",
+      "Jersey",
+      "Jordan",
+      "Kazakhstan",
+      "Kenya",
+      "Kiribati",
+      "Korea (the Democratic People's Republic of)",
+      "Korea (the Republic of)",
+      "Kuwait",
+      "Kyrgyzstan",
+      "Lao People's Democratic Republic (the)",
+      "Latvia",
+      "Lebanon",
+      "Lesotho",
+      "Liberia",
+      "Libya",
+      "Liechtenstein",
+      "Lithuania",
+      "Luxembourg",
+      "Macao",
+      "Madagascar",
+      "Malawi",
+      "Malaysia",
+      "Maldives",
+      "Mali",
+      "Malta",
+      "Marshall Islands (the)",
+      "Martinique",
+      "Mauritania",
+      "Mauritius",
+      "Mayotte",
+      "Mexico",
+      "Micronesia (Federated States of)",
+      "Moldova (the Republic of)",
+      "Monaco",
+      "Mongolia",
+      "Montenegro",
+      "Montserrat",
+      "Morocco",
+      "Mozambique",
+      "Myanmar",
+      "Namibia",
+      "Nauru",
+      "Nepal",
+      "Netherlands (the)",
+      "New Caledonia",
+      "New Zealand",
+      "Nicaragua",
+      "Niger (the)",
+      "Nigeria",
+      "Niue",
+      "Norfolk Island",
+      "Northern Mariana Islands (the)",
+      "Norway",
+      "Oman",
+      "Pakistan",
+      "Palau",
+      "Palestine, State of",
+      "Panama",
+      "Papua New Guinea",
+      "Paraguay",
+      "Peru",
+      "Philippines (the)",
+      "Pitcairn",
+      "Poland",
+      "Portugal",
+      "Puerto Rico",
+      "Qatar",
+      "Republic of North Macedonia",
+      "Romania",
+      "Russian Federation (the)",
+      "Rwanda",
+      "Réunion",
+      "Saint Barthélemy",
+      "Saint Helena, Ascension and Tristan da Cunha",
+      "Saint Kitts and Nevis",
+      "Saint Lucia",
+      "Saint Martin (French part)",
+      "Saint Pierre and Miquelon",
+      "Saint Vincent and the Grenadines",
+      "Samoa",
+      "San Marino",
+      "Sao Tome and Principe",
+      "Saudi Arabia",
+      "Senegal",
+      "Serbia",
+      "Seychelles",
+      "Sierra Leone",
+      "Singapore",
+      "Sint Maarten (Dutch part)",
+      "Slovakia",
+      "Slovenia",
+      "Solomon Islands",
+      "Somalia",
+      "South Africa",
+      "South Georgia and the South Sandwich Islands",
+      "South Sudan",
+      "Spain",
+      "Sri Lanka",
+      "Sudan (the)",
+      "Suriname",
+      "Svalbard and Jan Mayen",
+      "Sweden",
+      "Switzerland",
+      "Syrian Arab Republic",
+      "Taiwan",
+      "Tajikistan",
+      "Tanzania, United Republic of",
+      "Thailand",
+      "Timor-Leste",
+      "Togo",
+      "Tokelau",
+      "Tonga",
+      "Trinidad and Tobago",
+      "Tunisia",
+      "Turkey",
+      "Turkmenistan",
+      "Turks and Caicos Islands (the)",
+      "Tuvalu",
+      "Uganda",
+      "Ukraine",
+      "United Arab Emirates (the)",
+      "United Kingdom of Great Britain and Northern Ireland (the)",
+      "United States Minor Outlying Islands (the)",
+      "United States of America (the)",
+      "Uruguay",
+      "Uzbekistan",
+      "Vanuatu",
+      "Venezuela (Bolivarian Republic of)",
+      "Viet Nam",
+      "Virgin Islands (British)",
+      "Virgin Islands (U.S.)",
+      "Wallis and Futuna",
+      "Western Sahara",
+      "Yemen",
+      "Zambia",
+      "Zimbabwe",
+      "Åland Islands",
+    ],
+  }),
+  props: ["boatId", "startDate", "endDate"],
+  computed: {
+    ...mapGetters([]),
+    durationInDays() {
+      const startDate = new Date(this.startDate);
+      const endDate = new Date(this.endDate);
+      return Math.ceil(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
+    },
+    userBillingInfo() {
+      //fetch from db once implemented
+      return [
+        {
+          address: "C/ Falsa 123 5",
+          zipCode: "45723",
+          city: "Valencia",
+          country: "Spain",
+        },
+        {
+          address: "C/ Verdadera 123 5",
+          zipCode: "42223",
+          city: "Madrid",
+          country: "Spain",
+        },
+        {
+          address: "C/ Ik ben zurren mein zimbrelen 123 5",
+          zipCode: "28374",
+          city: "Den Haag",
+          country: "Netherlands",
+        },
+        {
+          address: "C/ Verdadera 123 5",
+          zipCode: "42223",
+          city: "Madrid",
+          country: "Spain",
+        },
+        {
+          address: "C/ Ik ben zurren mein zimbrelen 123 5",
+          zipCode: "28374",
+          city: "Den Haag",
+          country: "Netherlands",
+        },
+      ];
+    },
+  },
+  methods: {
+    ...mapActions(["createRental"]),
+  },
+};
+</script>
+
+<style>
+.payment-sheet {
+    min-height: 85vh;
+}
+.stretch {
+  align-items: stretch;
+}
+.billing-card > * {
+  padding: 0;
+}
+</style>
