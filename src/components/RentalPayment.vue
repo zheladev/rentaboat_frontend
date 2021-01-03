@@ -54,21 +54,25 @@
                         </v-card>
                       </v-slide-item>
                       <v-slide-item v-slot="{ toggle }">
-                        <v-dialog v-model="dialog" persistent max-width="600px">
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-card
-                              class="ma-4 grey lighten-3"
-                              height="150"
-                              width="200"
-                              mx-0
-                              v-bind="attrs"
-                              v-on="on"
-                              @click="toggle"
-                            >
+                        <v-card
+                          class="ma-4 grey lighten-3"
+                          height="150"
+                          width="200"
+                          mx-0
+                          @click="toggle"
+                        >
+                          <v-dialog
+                            v-model="dialog"
+                            persistent
+                            max-width="600px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
                               <v-row
                                 class="fill-height mx-0"
                                 align="center"
                                 justify="center"
+                                v-bind="attrs"
+                                v-on="on"
                               >
                                 <v-icon
                                   color="grey"
@@ -76,59 +80,63 @@
                                   v-text="'add'"
                                 ></v-icon>
                               </v-row>
+                            </template>
+                            <v-card>
+                              <v-card-title>
+                                <span class="headline"
+                                  >New Billing Address</span
+                                >
+                              </v-card-title>
+                              <v-card-text>
+                                <v-container>
+                                  <form @submit.prevent>
+                                    <v-row>
+                                      <v-col>
+                                        <v-text-field
+                                          v-model="newBillingInfo.address"
+                                          label="Address"
+                                          required
+                                        />
+                                      </v-col>
+                                    </v-row>
+                                    <v-row>
+                                      <v-col cols="4">
+                                        <v-text-field
+                                          v-model="newBillingInfo.zipCode"
+                                          label="Zip Code"
+                                        />
+                                      </v-col>
+                                      <v-col>
+                                        <v-text-field
+                                          v-model="newBillingInfo.city"
+                                          label="City"
+                                        />
+                                      </v-col>
+                                    </v-row>
+                                    <v-row>
+                                      <v-col>
+                                        <v-select
+                                          v-model="newBillingInfo.country"
+                                          :items="countryList"
+                                          label="Country"
+                                        />
+                                      </v-col>
+                                    </v-row>
+                                  </form>
+                                </v-container>
+                              </v-card-text>
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn text @click="dialog = false">
+                                  Close
+                                </v-btn>
+                                <v-btn text @click="dialog = false">
+                                  Save
+                                </v-btn>
+                              </v-card-actions>
                             </v-card>
-                          </template>
-                          <v-card>
-                            <v-card-title>
-                              <span class="headline">New Billing Address</span>
-                            </v-card-title>
-                            <v-card-text>
-                              <v-container>
-                                <form @submit.prevent>
-                                  <v-row>
-                                    <v-col>
-                                      <v-text-field
-                                        v-model="newBillingInfo.address"
-                                        label="Address"
-                                        required
-                                      />
-                                    </v-col>
-                                  </v-row>
-                                  <v-row>
-                                    <v-col cols="4">
-                                      <v-text-field
-                                        v-model="newBillingInfo.zipCode"
-                                        label="Zip Code"
-                                      />
-                                    </v-col>
-                                    <v-col>
-                                      <v-text-field
-                                        v-model="newBillingInfo.city"
-                                        label="City"
-                                      />
-                                    </v-col>
-                                  </v-row>
-                                  <v-row>
-                                    <v-col>
-                                      <v-select
-                                        v-model="newBillingInfo.country"
-                                        :items="countryList"
-                                        label="Country"
-                                      />
-                                    </v-col>
-                                  </v-row>
-                                </form>
-                              </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn text @click="dialog = false">
-                                Close
-                              </v-btn>
-                              <v-btn text @click="dialog = false"> Save </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
+                          </v-dialog>
+                        </v-card>
                       </v-slide-item>
                     </v-slide-group>
                     selected {{ slideModel }}
@@ -228,13 +236,13 @@ export default {
     panel: [0],
     dialog: false,
     slideModel: null,
-    billingInfo: {
+    newBillingInfo: {
       address: "",
       zipCode: "",
       city: "",
       country: "",
     },
-    newBillingInfo: {
+    billingInfo: {
       address: "",
       zipCode: "",
       city: "",
