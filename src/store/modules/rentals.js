@@ -43,7 +43,7 @@ const mutations = {
     setBoatRentals: (state, rentals) => (state.boatRentals = rentals),
     setOwnerRentals: (state, rentals) => (state.ownerRentals = rentals),
     setUserRentals: (state, rentals) => (state.userRentals = rentals),
-    createdRental: (state, rental) => (state.createdRentals = rental),
+    createdRental: (state, rental) => (state.createdRental = rental),
 }
 
 export default {
