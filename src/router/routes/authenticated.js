@@ -6,6 +6,8 @@ import Support from '@/components/dashboard/client/Support.vue';
 import Messages from '@/components/dashboard/Messages.vue';
 import RentalPayment from '@/views/RentalPaymentPage.vue';
 import Overview from '@/components/dashboard/client/Overview.vue';
+import General from '@/components/settings/General.vue';
+import Account from '@/components/settings/Account.vue';
 import AUTH_LEVELS from '../consts';
 
 const routes = [
@@ -22,7 +24,7 @@ const routes = [
         children: [
             {
                 path: '',
-                name: 'overview',
+                name: 'overview', //rename
                 component: Overview
             },
             {
@@ -50,11 +52,23 @@ const routes = [
     },
     {
         path: '/settings',
-        name: 'settings',
+        name: '',
         component: Settings,
         meta: {
             authLevel: AUTH_LEVELS.USER,
-        }
+        },
+        children: [
+            {
+                path: '',
+                name: 'settings',
+                component: General,
+            },
+            {
+                path: 'account',
+                name: 'accountSettings',
+                component: Account,
+            }
+        ]
     },
     {
         path: '/rentalPayment/:boatId/',

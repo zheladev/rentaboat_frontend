@@ -6,6 +6,7 @@
           v-for="item in menuItems"
           :key="item.title"
           link
+          exact
           :to="{ name: item.link }"
         >
           <v-list-item-icon>
