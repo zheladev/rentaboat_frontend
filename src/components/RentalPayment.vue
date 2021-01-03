@@ -12,18 +12,24 @@
                 <v-row>
                   <v-col>
                     <v-slide-group v-model="slideModel" show-arrows>
-                      <!-- Get billing infos from user and show preview here -->
+                      <!-- Not working yet as billing info is not implemented in backend -->
                       <v-slide-item
                         v-for="(billingInfo, i) in userBillingInfo"
                         :key="i"
-                        v-slot="{ toggle }"
+                        v-slot="{ active, toggle }"
                       >
                         <v-card
-                          class="ma-4 grey lighten-3"
+                          class="ma-4"
+                          :class="active ? 'grey lighten-2' : 'grey lighten-3'"
                           height="150"
                           width="200"
                           mx-0
-                          @click="toggle"
+                          @click="
+                            () => {
+                              toggle();
+                              setBillingInfo();
+                            }
+                          "
                         >
                           <v-row
                             class="billing-card fill-height grey--text text--darken-2 mx-0"
@@ -48,27 +54,84 @@
                         </v-card>
                       </v-slide-item>
                       <v-slide-item v-slot="{ toggle }">
-                        <v-card
-                          class="ma-4 grey lighten-3"
-                          height="150"
-                          width="200"
-                          mx-0
-                          @click="toggle"
-                        >
-                          <v-row
-                            class="fill-height mx-0"
-                            align="center"
-                            justify="center"
-                          >
-                            <v-icon
-                              color="grey"
-                              size="48"
-                              v-text="'add'"
-                            ></v-icon>
-                          </v-row>
-                        </v-card>
+                        <v-dialog v-model="dialog" persistent max-width="600px">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-card
+                              class="ma-4 grey lighten-3"
+                              height="150"
+                              width="200"
+                              mx-0
+                              v-bind="attrs"
+                              v-on="on"
+                              @click="toggle"
+                            >
+                              <v-row
+                                class="fill-height mx-0"
+                                align="center"
+                                justify="center"
+                              >
+                                <v-icon
+                                  color="grey"
+                                  size="48"
+                                  v-text="'add'"
+                                ></v-icon>
+                              </v-row>
+                            </v-card>
+                          </template>
+                          <v-card>
+                            <v-card-title>
+                              <span class="headline">New Billing Address</span>
+                            </v-card-title>
+                            <v-card-text>
+                              <v-container>
+                                <form @submit.prevent>
+                                  <v-row>
+                                    <v-col>
+                                      <v-text-field
+                                        v-model="newBillingInfo.address"
+                                        label="Address"
+                                        required
+                                      />
+                                    </v-col>
+                                  </v-row>
+                                  <v-row>
+                                    <v-col cols="4">
+                                      <v-text-field
+                                        v-model="newBillingInfo.zipCode"
+                                        label="Zip Code"
+                                      />
+                                    </v-col>
+                                    <v-col>
+                                      <v-text-field
+                                        v-model="newBillingInfo.city"
+                                        label="City"
+                                      />
+                                    </v-col>
+                                  </v-row>
+                                  <v-row>
+                                    <v-col>
+                                      <v-select
+                                        v-model="newBillingInfo.country"
+                                        :items="countryList"
+                                        label="Country"
+                                      />
+                                    </v-col>
+                                  </v-row>
+                                </form>
+                              </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn text @click="dialog = false">
+                                Close
+                              </v-btn>
+                              <v-btn text @click="dialog = false"> Save </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
                       </v-slide-item>
                     </v-slide-group>
+                    selected {{ slideModel }}
                   </v-col>
                 </v-row>
                 <v-row>
@@ -109,7 +172,6 @@
                     </form>
                   </v-col>
                 </v-row>
-                {{ billingInfo }}
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -137,19 +199,20 @@
         </v-sheet>
       </v-col>
       <v-divider vertical class="hidden-sm-and-down"></v-divider>
-      <v-col class="hidden-sm-and-down grey lighten-4"> 
-          <v-sheet class="ma-4" elevation="1">
-              Order Summary
-              <v-divider></v-divider>
-              blah blah blah
-              <v-divider></v-divider>
-              total
-              <v-divider></v-divider>
-              you saved X
-          </v-sheet>
+      <v-col class="hidden-sm-and-down grey lighten-4">
+        <v-sheet class="ma-4" elevation="1">
+          Order Summary
+          <v-divider></v-divider>
+          <div>{{ currBoat.name }}</div>
+          <div>from: {{ startDate }}</div>
+          <div>to: {{ endDate }}</div>
+          <div>days: {{ durationInDays + 1 }}</div>
+          <v-divider></v-divider>
+          total
+        </v-sheet>
         <div class="text-center">
-            <v-btn class="text-center" rounded color="green" dark>
-              Rent boat
+          <v-btn class="text-center" rounded color="green" dark>
+            Rent boat
           </v-btn>
         </div>
       </v-col>
@@ -163,8 +226,15 @@ export default {
   name: "RentalPayment",
   data: () => ({
     panel: [0],
+    dialog: false,
     slideModel: null,
     billingInfo: {
+      address: "",
+      zipCode: "",
+      city: "",
+      country: "",
+    },
+    newBillingInfo: {
       address: "",
       zipCode: "",
       city: "",
@@ -186,7 +256,7 @@ export default {
       "Australia",
       "Austria",
       "Azerbaijan",
-      "Bahamas (the)",
+      "Bahamas",
       "Bahrain",
       "Bangladesh",
       "Barbados",
@@ -196,13 +266,13 @@ export default {
       "Benin",
       "Bermuda",
       "Bhutan",
-      "Bolivia (Plurinational State of)",
+      "Bolivia",
       "Bonaire, Sint Eustatius and Saba",
       "Bosnia and Herzegovina",
       "Botswana",
       "Bouvet Island",
       "Brazil",
-      "British Indian Ocean Territory (the)",
+      "British Indian Ocean Territory",
       "Brunei Darussalam",
       "Bulgaria",
       "Burkina Faso",
@@ -211,18 +281,18 @@ export default {
       "Cambodia",
       "Cameroon",
       "Canada",
-      "Cayman Islands (the)",
-      "Central African Republic (the)",
+      "Cayman Islands",
+      "Central African Republic",
       "Chad",
       "Chile",
       "China",
       "Christmas Island",
-      "Cocos (Keeling) Islands (the)",
+      "Cocos Islands",
       "Colombia",
-      "Comoros (the)",
-      "Congo (the Democratic Republic of the)",
-      "Congo (the)",
-      "Cook Islands (the)",
+      "Comoros",
+      "Congo",
+      "Congo",
+      "Cook Islands",
       "Costa Rica",
       "Croatia",
       "Cuba",
@@ -233,7 +303,7 @@ export default {
       "Denmark",
       "Djibouti",
       "Dominica",
-      "Dominican Republic (the)",
+      "Dominican Republic",
       "Ecuador",
       "Egypt",
       "El Salvador",
@@ -242,16 +312,16 @@ export default {
       "Estonia",
       "Eswatini",
       "Ethiopia",
-      "Falkland Islands (the) [Malvinas]",
-      "Faroe Islands (the)",
+      "Falkland Islands",
+      "Faroe Islands",
       "Fiji",
       "Finland",
       "France",
       "French Guiana",
       "French Polynesia",
-      "French Southern Territories (the)",
+      "French Southern Territories",
       "Gabon",
-      "Gambia (the)",
+      "Gambia",
       "Georgia",
       "Germany",
       "Ghana",
@@ -268,14 +338,14 @@ export default {
       "Guyana",
       "Haiti",
       "Heard Island and McDonald Islands",
-      "Holy See (the)",
+      "Holy See",
       "Honduras",
       "Hong Kong",
       "Hungary",
       "Iceland",
       "India",
       "Indonesia",
-      "Iran (Islamic Republic of)",
+      "Iran",
       "Iraq",
       "Ireland",
       "Isle of Man",
@@ -288,11 +358,10 @@ export default {
       "Kazakhstan",
       "Kenya",
       "Kiribati",
-      "Korea (the Democratic People's Republic of)",
-      "Korea (the Republic of)",
+      "South Korea",
       "Kuwait",
       "Kyrgyzstan",
-      "Lao People's Democratic Republic (the)",
+      "Lao People's Democratic Republic",
       "Latvia",
       "Lebanon",
       "Lesotho",
@@ -308,14 +377,14 @@ export default {
       "Maldives",
       "Mali",
       "Malta",
-      "Marshall Islands (the)",
+      "Marshall Islands",
       "Martinique",
       "Mauritania",
       "Mauritius",
       "Mayotte",
       "Mexico",
-      "Micronesia (Federated States of)",
-      "Moldova (the Republic of)",
+      "Micronesia",
+      "Moldova",
       "Monaco",
       "Mongolia",
       "Montenegro",
@@ -326,15 +395,15 @@ export default {
       "Namibia",
       "Nauru",
       "Nepal",
-      "Netherlands (the)",
+      "Netherlands",
       "New Caledonia",
       "New Zealand",
       "Nicaragua",
-      "Niger (the)",
+      "Niger",
       "Nigeria",
       "Niue",
       "Norfolk Island",
-      "Northern Mariana Islands (the)",
+      "Northern Mariana Islands",
       "Norway",
       "Oman",
       "Pakistan",
@@ -344,7 +413,7 @@ export default {
       "Papua New Guinea",
       "Paraguay",
       "Peru",
-      "Philippines (the)",
+      "Philippines",
       "Pitcairn",
       "Poland",
       "Portugal",
@@ -352,14 +421,14 @@ export default {
       "Qatar",
       "Republic of North Macedonia",
       "Romania",
-      "Russian Federation (the)",
+      "Russian Federation",
       "Rwanda",
       "Réunion",
       "Saint Barthélemy",
       "Saint Helena, Ascension and Tristan da Cunha",
       "Saint Kitts and Nevis",
       "Saint Lucia",
-      "Saint Martin (French part)",
+      "Saint Martin",
       "Saint Pierre and Miquelon",
       "Saint Vincent and the Grenadines",
       "Samoa",
@@ -371,7 +440,7 @@ export default {
       "Seychelles",
       "Sierra Leone",
       "Singapore",
-      "Sint Maarten (Dutch part)",
+      "Sint Maarten",
       "Slovakia",
       "Slovenia",
       "Solomon Islands",
@@ -381,7 +450,7 @@ export default {
       "South Sudan",
       "Spain",
       "Sri Lanka",
-      "Sudan (the)",
+      "Sudan",
       "Suriname",
       "Svalbard and Jan Mayen",
       "Sweden",
@@ -399,18 +468,18 @@ export default {
       "Tunisia",
       "Turkey",
       "Turkmenistan",
-      "Turks and Caicos Islands (the)",
+      "Turks and Caicos Islands",
       "Tuvalu",
       "Uganda",
       "Ukraine",
-      "United Arab Emirates (the)",
-      "United Kingdom of Great Britain and Northern Ireland (the)",
-      "United States Minor Outlying Islands (the)",
-      "United States of America (the)",
+      "United Arab Emirates",
+      "United Kingdom of Great Britain and Northern Ireland",
+      "United States Minor Outlying Islands",
+      "United States of America",
       "Uruguay",
       "Uzbekistan",
       "Vanuatu",
-      "Venezuela (Bolivarian Republic of)",
+      "Venezuela",
       "Viet Nam",
       "Virgin Islands (British)",
       "Virgin Islands (U.S.)",
@@ -424,7 +493,7 @@ export default {
   }),
   props: ["boatId", "startDate", "endDate"],
   computed: {
-    ...mapGetters([]),
+    ...mapGetters(["currBoat"]),
     durationInDays() {
       const startDate = new Date(this.startDate);
       const endDate = new Date(this.endDate);
@@ -467,14 +536,25 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createRental"]),
+    ...mapActions(["createRental", "fetchBoatById"]),
+    setBillingInfo() {
+      const selectedBillingInfo = this.userBillingInfo[this.slideModel];
+      if (selectedBillingInfo) {
+        this.billingInfo = {
+          ...selectedBillingInfo,
+        };
+      }
+    },
+  },
+  async mounted() {
+    await this.fetchBoatById(this.boatId);
   },
 };
 </script>
 
 <style>
 .payment-sheet {
-    min-height: 85vh;
+  min-height: 85vh;
 }
 .stretch {
   align-items: stretch;
