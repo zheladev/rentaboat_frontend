@@ -139,7 +139,6 @@
                         </v-card>
                       </v-slide-item>
                     </v-slide-group>
-                    selected {{ slideModel }}
                   </v-col>
                 </v-row>
                 <v-row>
@@ -204,6 +203,23 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
+          <v-col class="hidden-md-and-up grey lighten-4">
+        <v-sheet class="ma-4" elevation="1">
+          Order Summary
+          <v-divider></v-divider>
+          <div>{{ currBoat.name }}</div>
+          <div>from: {{ startDate }}</div>
+          <div>to: {{ endDate }}</div>
+          <div>days: {{ durationInDays + 1 }}</div>
+          <v-divider></v-divider>
+          total
+        </v-sheet>
+        <div class="text-center">
+          <v-btn class="text-center" rounded color="green" dark @click="submit">
+            Rent boat
+          </v-btn>
+        </div>
+      </v-col>
         </v-sheet>
       </v-col>
       <v-divider vertical class="hidden-sm-and-down"></v-divider>
@@ -219,7 +235,7 @@
           total
         </v-sheet>
         <div class="text-center">
-          <v-btn class="text-center" rounded color="green" dark>
+          <v-btn class="text-center" rounded color="green" dark @click="submit">
             Rent boat
           </v-btn>
         </div>
@@ -501,7 +517,7 @@ export default {
   }),
   props: ["boatId", "startDate", "endDate"],
   computed: {
-    ...mapGetters(["currBoat"]),
+    ...mapGetters(["currBoat", "hasSuccessfullyCreatedRental"]),
     durationInDays() {
       const startDate = new Date(this.startDate);
       const endDate = new Date(this.endDate);
@@ -553,8 +569,19 @@ export default {
         };
       }
     },
-    createRental() {
-        
+    async submit() {
+        await this.createRental({
+            startDate: this.startDate,
+            durationInDays: `P${this.durationInDays}D`,
+            boatId: this.boatId,
+        })
+        //check whether rental was successful
+        if (this.hasSuccessfullyCreatedRental) {
+            this.$router.push("/dashboard/upcomingRentals") //change
+        } else {
+            this.$router.push("/notFound")
+        }
+
     }
   },
   async mounted() {
