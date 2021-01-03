@@ -20,7 +20,10 @@ const getRentalsByUser = async (id) => {
 
 const createRental = async (rentalData) => {
     const response = await Axios.post(API_URL, rentalData, { headers: await authHeader() });
-    return response.data;
+    return {
+        rental: response.data,
+        status: response.status,
+    };
 }
 
 

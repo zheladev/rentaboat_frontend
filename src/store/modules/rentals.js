@@ -4,14 +4,15 @@ const state = {
     boatRentals: {},
     ownerRentals: {},
     userRentals: {},
-    createdRentals: {},
+    createdRental: null,
 }
 
 const getters = {
     boatRentals: state => state.boatRentals,
     ownedRentals: state => state.ownedRentals,
     userRentals: state => state.userRentals,
-    createdRentals: state => state.createdRentals,
+    createdRental: state => state.createdRental,
+    hasSuccessfullyCreatedRental: state => state.createdRental !== null,
 }
 
 const actions = {
@@ -28,12 +29,14 @@ const actions = {
         commit('setUserRentals', rentals); 
     },
     async createRental({ commit }, rentalData) {
-        const rental = await Api.createRental(rentalData);
-        commit('createRental', rental)
+        const res = await Api.createRental(rentalData);
+        if (res.status === 200) {
+            commit('createdRental', res.rental);
+        }
     },
-    async getRentalPricing({ commit }, rentalPricingData) {
-        //send request to backend
-    }
+    // async getRentalPricing({ commit }, rentalPricingData) {
+    //     //send request to backend
+    // }
 }
 
 const mutations = {
