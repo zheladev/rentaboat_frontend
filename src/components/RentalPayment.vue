@@ -204,22 +204,28 @@
             </v-expansion-panel>
           </v-expansion-panels>
           <v-col class="hidden-md-and-up grey lighten-4">
-        <v-sheet class="ma-4" elevation="1">
-          Order Summary
-          <v-divider></v-divider>
-          <div>{{ currBoat.name }}</div>
-          <div>from: {{ startDate }}</div>
-          <div>to: {{ endDate }}</div>
-          <div>days: {{ durationInDays + 1 }}</div>
-          <v-divider></v-divider>
-          total
-        </v-sheet>
-        <div class="text-center">
-          <v-btn class="text-center" rounded color="green" dark @click="submit">
-            Rent boat
-          </v-btn>
-        </div>
-      </v-col>
+            <v-sheet class="ma-4" elevation="1">
+              Order Summary
+              <v-divider></v-divider>
+              <div>{{ currBoat.name }}</div>
+              <div>from: {{ startDate }}</div>
+              <div>to: {{ endDate }}</div>
+              <div>days: {{ durationInDays + 1 }}</div>
+              <v-divider></v-divider>
+              total
+            </v-sheet>
+            <div class="text-center">
+              <v-btn
+                class="text-center"
+                rounded
+                color="green"
+                dark
+                @click="submit"
+              >
+                Rent boat
+              </v-btn>
+            </div>
+          </v-col>
         </v-sheet>
       </v-col>
       <v-divider vertical class="hidden-sm-and-down"></v-divider>
@@ -570,19 +576,20 @@ export default {
       }
     },
     async submit() {
+      try {
         await this.createRental({
-            startDate: this.startDate,
-            durationInDays: `P${this.durationInDays}D`,
-            boatId: this.boatId,
-        })
-        //check whether rental was successful
-        if (this.hasSuccessfullyCreatedRental) {
-            this.$router.push("/dashboard/upcomingRentals") //change
-        } else {
-            this.$router.push("/notFound")
-        }
+          startDate: this.startDate,
+          durationInDays: `P${this.durationInDays}D`,
+          boatId: this.boatId,
+        });
+      } catch (e) {
+        this.$router.push("/notFound");
+      }
 
-    }
+      if (this.hasSuccessfullyCreatedRental) {
+        this.$router.push("/dashboard/upcomingRentals"); //change
+      }
+    },
   },
   async mounted() {
     await this.fetchBoatById(this.boatId);
