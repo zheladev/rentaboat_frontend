@@ -1,13 +1,15 @@
 <template>
-  <v-container>
-      Process rental payment and commit it to backend here
-      {{boatId}}, {{startDate}}, {{endDate}}
+  <v-container fluid py-0>
+      <rental-payment :boatId="boatId" :startDate="startDate" :endDate="endDate"/>
   </v-container>
 </template>
 
 <script>
+import RentalPayment from "@/components/RentalPayment.vue"
+
 export default {
-    name: 'RentalPayment',
+    components: { RentalPayment },
+    name: 'RentalPaymentPage',
     data: () => ({
 
     }),

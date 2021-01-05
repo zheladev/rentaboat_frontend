@@ -53,7 +53,9 @@ export default {
     },
     endDateStr(r) {
         const d = new Date(r.startDate);
-        d.setDate(d.getDate() + parseInt(r.durationInDays.days));
+        console.log(r)
+        const diff = parseInt(r.durationInDays.days);
+        d.setDate(d.getDate() + (Number.isInteger(diff) ? diff : 0));
         return d.toISOString().split("T")[0];
     }
   },

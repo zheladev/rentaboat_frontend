@@ -18,9 +18,12 @@ const getRentalsByUser = async (id) => {
     return response.data;
 }
 
-const postRental = async (rentalData) => {
+const createRental = async (rentalData) => {
     const response = await Axios.post(API_URL, rentalData, { headers: await authHeader() });
-    return response.data;
+    return {
+        rental: response.data,
+        status: response.status,
+    };
 }
 
 
@@ -28,5 +31,5 @@ export default {
     getRentalsByBoat,
     getRentalsByOwner,
     getRentalsByUser,
-    postRental,
+    createRental,
 }
