@@ -205,14 +205,50 @@
           </v-expansion-panels>
           <v-col class="hidden-md-and-up grey lighten-4">
             <v-sheet class="ma-4" elevation="1">
-              Order Summary
-              <v-divider></v-divider>
-              <div>{{ currBoat.name }}</div>
-              <div>from: {{ startDate }}</div>
-              <div>to: {{ endDate }}</div>
-              <div>days: {{ durationInDays + 1 }}</div>
-              <v-divider></v-divider>
-              total
+              <v-container>
+                <v-row>
+                  <v-col
+                    ><div class="headline text-center">
+                      Order Summary
+                    </div></v-col
+                  >
+                </v-row>
+                <v-divider></v-divider>
+                <v-row>
+                  <v-col cols="2"><v-icon>directions_boat</v-icon></v-col>
+                  <v-col cols="10"
+                    ><div class="text-truncate text-right">
+                      {{ currBoat.name }}
+                    </div></v-col
+                  >
+                </v-row>
+                <v-row>
+                  <v-col cols="2"><v-icon>today</v-icon></v-col>
+                  <v-col cols="10"
+                    ><div class="text-truncate text-right">
+                      {{ startDate }} ~ {{ endDate }}
+                    </div></v-col
+                  >
+                </v-row>
+                <v-row>
+                  <v-col cols="2"><v-icon>schedule</v-icon></v-col>
+                  <v-col cols="10"
+                    ><div class="text-truncate text-right">
+                      {{ durationInDays + 1 }}
+                      {{ durationInDays + 1 > 1 ? "days" : "day" }}
+                    </div></v-col
+                  >
+                </v-row>
+                <v-divider></v-divider>
+                <v-row class="display-1">
+                  <v-col cols="4"><div>Total</div></v-col>
+                  <v-col cols="8"
+                    ><div class="text-right">
+                      {{ totalPrice.toFixed(2) }}€
+                    </div></v-col
+                  >
+                </v-row>
+              </v-container>
             </v-sheet>
             <div class="text-center">
               <v-btn
@@ -231,14 +267,48 @@
       <v-divider vertical class="hidden-sm-and-down"></v-divider>
       <v-col class="hidden-sm-and-down grey lighten-4">
         <v-sheet class="ma-4" elevation="1">
-          Order Summary
-          <v-divider></v-divider>
-          <div>{{ currBoat.name }}</div>
-          <div>from: {{ startDate }}</div>
-          <div>to: {{ endDate }}</div>
-          <div>days: {{ durationInDays + 1 }}</div>
-          <v-divider></v-divider>
-          total
+          <v-container>
+            <v-row>
+              <v-col
+                ><div class="headline text-center">Order Summary</div></v-col
+              >
+            </v-row>
+            <v-divider></v-divider>
+            <v-row>
+              <v-col cols="2"><v-icon>directions_boat</v-icon></v-col>
+              <v-col cols="10"
+                ><div class="text-truncate text-right">
+                  {{ currBoat.name }}
+                </div></v-col
+              >
+            </v-row>
+            <v-row>
+              <v-col cols="2"><v-icon>today</v-icon></v-col>
+              <v-col cols="10"
+                ><div class="text-truncate text-right">
+                  {{ startDate }} ~ {{ endDate }}
+                </div></v-col
+              >
+            </v-row>
+            <v-row>
+              <v-col cols="2"><v-icon>schedule</v-icon></v-col>
+              <v-col cols="10"
+                ><div class="text-truncate text-right">
+                  {{ durationInDays + 1 }}
+                  {{ durationInDays + 1 > 1 ? "days" : "day" }}
+                </div></v-col
+              >
+            </v-row>
+            <v-divider></v-divider>
+            <v-row class="display-1">
+              <v-col cols="4"><div>Total</div></v-col>
+              <v-col cols="8"
+                ><div class="text-right">
+                  {{ totalPrice.toFixed(2) }}€
+                </div></v-col
+              >
+            </v-row>
+          </v-container>
         </v-sheet>
         <div class="text-center">
           <v-btn class="text-center" rounded color="green" dark @click="submit">
@@ -524,6 +594,9 @@ export default {
   props: ["boatId", "startDate", "endDate"],
   computed: {
     ...mapGetters(["currBoat", "hasSuccessfullyCreatedRental"]),
+    totalPrice() {
+      return this.currBoat.pricePerDay * (this.durationInDays + 1);
+    },
     durationInDays() {
       const startDate = new Date(this.startDate);
       const endDate = new Date(this.endDate);
