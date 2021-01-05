@@ -2,12 +2,14 @@ import Api from '../../services/api/boat';
 
 const state = {
     boats: [],
+    ownerBoats: [],
     currBoat: {}
 }
 
 const getters = {
     allBoats: state => state.boats,
     currBoat: state => state.currBoat,
+    ownerBoats: state => state.ownerBoats,
 }
 
 const actions = {
@@ -26,12 +28,17 @@ const actions = {
             boat = fetchedBoat;
         }
         commit('setCurrBoat', boat);
+    },
+    async fetchBoatsByOwnerId({ commit }, ownerId) {
+        const boats = await Api.getBoatsByOwnerId(ownerId);
+        commit('setOwnerBoats', boats);
     }
 }
 
 const mutations = {
     setBoats: (state, boats) => (state.boats = boats),
     setCurrBoat: (state, currBoat) => (state.currBoat = currBoat),
+    setOwnerBoats: (state, ownerBoats) => (state.ownerBoats = ownerBoats),
 }
 
 export default {

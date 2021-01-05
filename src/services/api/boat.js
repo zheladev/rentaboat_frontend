@@ -8,6 +8,11 @@ const getAllBoats = async () => {
     return response.data;
 }
 
+const getBoatsByOwnerId = async (id) => {
+    const response = await Axios.get(`${API_URL}owner/${id}`, { headers: await authHeader() });
+    return response.data;
+}
+
 const getBoatById = async (id) => {
     const response = await Axios.get(`${API_URL}${id}`, { headers: await authHeader() });
     return response.data;
@@ -23,4 +28,5 @@ export default {
     getAllBoats,
     getBoatById,
     postBoat,
+    getBoatsByOwnerId,
 }
