@@ -29,7 +29,7 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!isLoggedIn">
-            <v-btn text :to="{ name: 'signupPage' }" exact hidden-sm-and-down>
+          <v-btn text :to="{ name: 'signupPage' }" exact hidden-sm-and-down>
             <span class="mx-1">Sign up </span>
             <v-icon>mdi-account-plus</v-icon></v-btn
           >
@@ -219,10 +219,16 @@ export default {
       ];
     },
     userDropdownItems() {
+        const dashboardLinks = {
+            0: "ownerDashboard", //change back to adminDashboard after testing
+            1: "supportDashboard",
+            2: "ownerDashboard",
+            3: "clientDashboard",
+        }
       return [
         {
           title: "Dashboard",
-          link: "dashboard",
+          link: dashboardLinks[this.user.userType.intValue],
           icon: "dashboard",
         },
         {

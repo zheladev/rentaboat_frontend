@@ -1,19 +1,52 @@
 import ClientDashboard from '@/views/ClientDashboardPage.vue';
 import Settings from '@/views/SettingsPage.vue';
-import PastRentals from '@/components/dashboard/client/PastRentals.vue';
-import UpcomingRentals from '@/components/dashboard/client/UpcomingRentals.vue';
-import Support from '@/components/dashboard/client/Support.vue';
-import Messages from '@/components/dashboard/Messages.vue';
 import RentalPayment from '@/views/RentalPaymentPage.vue';
+import OwnerDashboard from '@/views/OwnerDashboardPage.vue';
 import Overview from '@/components/dashboard/client/Overview.vue';
 import General from '@/components/settings/General.vue';
 import Account from '@/components/settings/Account.vue';
+import PastRentals from '@/components/dashboard/client/PastRentals.vue';
+import UpcomingRentals from '@/components/dashboard/client/UpcomingRentals.vue';
+import Support from '@/components/dashboard/Support.vue';
+import Messages from '@/components/dashboard/Messages.vue';
+import OwnerBoats from '@/components/dashboard/owner/OwnerBoats.vue';
+import OwnerBoat from '@/components/dashboard/owner/OwnerBoat.vue';
 import AUTH_LEVELS from '../consts';
 
 const routes = [
     {
-        path: '/dashboard',
-        name: 'dashboard',
+        path: '/ownerDashboard',
+        name: 'ownerDashboard',
+        component: OwnerDashboard,
+        meta: {
+            authLevel: AUTH_LEVELS.OWNER
+        },
+        children: [
+            {
+                path: 'messages',
+                name: 'ownerMessages',
+                component: Messages,
+            },
+            {
+                path: 'support',
+                name: 'ownerSupport',
+                component: Support,
+            },
+            {
+                path: 'boats',
+                name: 'ownerBoats',
+                component: OwnerBoats,
+            },
+            {
+                path: 'boat/:id',
+                name: 'ownerBoatDetails',
+                component: OwnerBoat,
+            },
+        ]
+    },
+    {
+        path: '/clientDashboard',
+        name: 'clientDashboard',
         component: ClientDashboard,
         redirect: {
             name: 'overview'
@@ -24,7 +57,7 @@ const routes = [
         children: [
             {
                 path: '',
-                name: 'overview', //rename
+                name: 'overview',
                 component: Overview
             },
             {
@@ -39,12 +72,12 @@ const routes = [
             },
             {
                 path: 'messages',
-                name: 'messages',
+                name: 'clientMessages',
                 component: Messages,
             },
             {
                 path: 'support',
-                name: 'support',
+                name: 'clientSupport',
                 component: Support,
             },
 
