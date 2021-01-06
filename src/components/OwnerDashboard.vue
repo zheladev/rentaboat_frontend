@@ -51,11 +51,6 @@ export default {
           link: "ownerSupport",
           icon: "help",
         },
-        { //TODO: REMOVE
-          title: "View upcoming rentals",
-          link: "upcomingRentals",
-          icon: "today",
-        },
       ];
     },
   },
