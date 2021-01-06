@@ -18,10 +18,18 @@ const routes = [
         path: '/ownerDashboard',
         name: 'ownerDashboard',
         component: OwnerDashboard,
+        redirect: {
+            name: 'ownerBoats'
+        },
         meta: {
             authLevel: AUTH_LEVELS.OWNER
         },
         children: [
+            {
+                path: 'boats',
+                name: 'ownerBoats',
+                component: OwnerBoats,
+            },
             {
                 path: 'messages',
                 name: 'ownerMessages',
@@ -31,11 +39,6 @@ const routes = [
                 path: 'support',
                 name: 'ownerSupport',
                 component: Support,
-            },
-            {
-                path: 'boats',
-                name: 'ownerBoats',
-                component: OwnerBoats,
             },
             {
                 path: 'boat/:id',

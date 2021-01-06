@@ -47,7 +47,7 @@
           ref="userTooltipItem"
           :class="isWebUserMenuActive ? 'active' : ''"
         >
-          <v-avatar class="white--text mx-2" color="purple" size="42">
+          <v-avatar class="white--text mx-2 text-center" color="purple" size="42">
             <span
               >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
             >

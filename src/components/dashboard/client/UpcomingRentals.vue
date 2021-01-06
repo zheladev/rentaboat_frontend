@@ -166,6 +166,8 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
+        console.log(event)
+        console.log(nativeEvent.target)
         this.x = nativeEvent.clientX;
         this.y = nativeEvent.clientY;
         setTimeout(() => {

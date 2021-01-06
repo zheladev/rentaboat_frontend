@@ -51,6 +51,11 @@ export default {
           link: "ownerSupport",
           icon: "help",
         },
+        { //TODO: REMOVE
+          title: "View upcoming rentals",
+          link: "upcomingRentals",
+          icon: "today",
+        },
       ];
     },
   },
@@ -58,7 +63,6 @@ export default {
     ...mapActions([]),
   },
   mounted() {
-    this.fetchRentalsByUser(this.user.id);
     //prevent child view from being overlapped by nav drawer
     this.$forceUpdate(); 
     this.isLoaded = true;

@@ -9,6 +9,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.content-section-container {
+  padding: 2em 2em 1em 2em;
+}
 </style>
