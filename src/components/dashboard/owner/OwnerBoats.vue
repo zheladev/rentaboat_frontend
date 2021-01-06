@@ -63,188 +63,197 @@
     </v-container>
     <v-divider></v-divider>
     <!-- Boat details -->
-    <v-container
-      v-if="activeBoat !== null"
-      class="content-section-container pt-0"
-    >
-      <v-row class="pa-0">
-        <!-- TODO: Make responsive -->
-        <v-col lg="7" md="12" class="fill-width">
-          <v-row>
-            <v-col>
-              <div class="headline">Boat Details</div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="5"
-              ><v-img
-                max-height="200"
-                max-width="300"
-                src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
-            /></v-col>
-            <v-col>
-              <v-text-field
-                v-model="activeBoatObj.name"
-                label="Boat name"
-                prepend-icon="directions_boat"
-              />
-              <v-text-field
-                v-model="activeBoatObj.pricePerDay"
-                label="Price per day"
-                prepend-icon="euro"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-textarea
-                v-model="activeBoatObj.description"
-                filled
-                auto-grow
-                label="Description"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="4">
-              <v-text-field
-                v-model="activeBoatObj.numberOfCabins"
-                label="Nº of cabins"
-                prepend-icon="meeting_room"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-text-field
-                v-model="activeBoatObj.numberOfBathrooms"
-                label="Nº of bathrooms"
-                prepend-icon="waves"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-text-field
-                v-model="activeBoatObj.passengerCapacity"
-                label="Passenger Capacity"
-                prepend-icon="person"
-              />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-btn>EDIT NIGGA</v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col class="fill-width">
-          <v-row>
-            <v-col>
-              <div class="headline">Upcoming Rentals</div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col
-              ><v-sheet class="calendar-sheet-container">
-                <v-toolbar class="calendar-toolbar py-0">
-                  <v-btn fab text small color="grey darken-2" @click="prev">
-                    <v-icon small> mdi-chevron-left </v-icon>
-                  </v-btn>
-                  <v-btn fab text small color="grey darken-2" @click="next">
-                    <v-icon small> mdi-chevron-right </v-icon>
-                  </v-btn>
-                  <v-toolbar-title> {{ calendarTitle }} </v-toolbar-title>
-                </v-toolbar>
-              </v-sheet>
-              <v-sheet>
-                <v-calendar
-                  ref="calendar"
-                  v-model="focus"
-                  :weekdays="[0, 1, 2, 3, 4, 5, 6]"
-                  type="month"
-                  :events="getEventsFromRentals(activeBoatRentals)"
-                  event-overlap-mode="stack"
-                  :event-overlap-threshold="30"
-                  :event-color="getEventColor"
-                  @change="updateTitle"
-                  @click:event="showRentalDetails"
-                ></v-calendar> </v-sheet
-            ></v-col>
-          </v-row>
-          <v-row v-if="selectedElement">
-            <v-col class="py-0">
-              <div class="text-overline">Rental Details</div>
-            </v-col>
-          </v-row>
-          <v-row v-if="selectedElement">
-            <v-col>
-              <v-list class="flat-sheet">
-                <v-list-item>
-                  <v-list-item-avatar  class="white--text" color="purple">
-                      <!-- TODO: load avatar -->
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title
-                      >{{ selectedRental.rental.renter.firstName }}
-                      {{
-                        selectedRental.rental.renter.lastName
-                      }}</v-list-item-title
-                    >
-                  </v-list-item-content>
-
-                  <v-list-item-action>
-                    <!-- TODO: open chat with user -->
-                    <v-btn class="orange--text" icon>
-                      <v-icon>chat</v-icon>
+    <v-scroll-y-transition>
+      <v-container
+        v-if="activeBoat !== null"
+        class="content-section-container pt-0"
+      >
+        <v-row class="pa-0">
+          <!-- TODO: Make responsive -->
+          <v-col lg="7" md="12" class="fill-width">
+            <v-row>
+              <v-col>
+                <div class="headline">Boat Details</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="5"
+                ><v-img
+                  max-height="200"
+                  max-width="300"
+                  src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
+              /></v-col>
+              <v-col>
+                <v-text-field
+                  v-model="activeBoatObj.name"
+                  label="Boat name"
+                  prepend-icon="directions_boat"
+                />
+                <v-text-field
+                  v-model="activeBoatObj.pricePerDay"
+                  label="Price per day"
+                  prepend-icon="euro"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-textarea
+                  v-model="activeBoatObj.description"
+                  filled
+                  auto-grow
+                  label="Description"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="activeBoatObj.numberOfCabins"
+                  label="Nº of cabins"
+                  prepend-icon="meeting_room"
+                />
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="activeBoatObj.numberOfBathrooms"
+                  label="Nº of bathrooms"
+                  prepend-icon="waves"
+                />
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="activeBoatObj.passengerCapacity"
+                  label="Passenger Capacity"
+                  prepend-icon="person"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn>EDIT NIGGA</v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col class="fill-width">
+            <v-row>
+              <v-col>
+                <div class="headline">Upcoming Rentals</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                ><v-sheet class="calendar-sheet-container">
+                  <v-toolbar class="calendar-toolbar py-0">
+                    <v-btn fab text small color="grey darken-2" @click="prev">
+                      <v-icon small> mdi-chevron-left </v-icon>
                     </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-                <v-divider></v-divider>
-                <v-list-item>
-                  <v-row>
-                    <v-col cols="2"><v-icon>today</v-icon></v-col>
-                    <v-col cols="10"
-                      ><div class="text-truncate text-right">
-                        {{ getDateInterval(selectedRental.rental) }}
-                      </div></v-col
-                    >
-                  </v-row>
-                </v-list-item>
-                <v-list-item>
-                  <v-row>
-                    <v-col cols="2"><v-icon>location_on</v-icon></v-col>
-                    <v-col cols="10"
-                      ><div class="text-truncate text-right">
-                        {{ ownerBoats[activeBoat].port.name }}
-                      </div></v-col
-                    >
-                  </v-row>
-                </v-list-item>
-              </v-list>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
+                    <v-btn fab text small color="grey darken-2" @click="next">
+                      <v-icon small> mdi-chevron-right </v-icon>
+                    </v-btn>
+                    <v-toolbar-title> {{ calendarTitle }} </v-toolbar-title>
+                  </v-toolbar>
+                </v-sheet>
+                <v-sheet>
+                  <v-calendar
+                    ref="calendar"
+                    v-model="focus"
+                    :weekdays="[0, 1, 2, 3, 4, 5, 6]"
+                    type="month"
+                    :events="getEventsFromRentals(activeBoatRentals)"
+                    event-overlap-mode="stack"
+                    :event-overlap-threshold="30"
+                    :event-color="getEventColor"
+                    @change="updateTitle"
+                    @click:event="showRentalDetails"
+                  ></v-calendar> </v-sheet
+              ></v-col>
+            </v-row>
+            <v-row>
+              <v-col class="py-0">
+                <div class="text-overline">Rental Details</div>
+              </v-col>
+            </v-row>
+            <v-row v-if="!selectedElement">
+              <v-scroll-y-transition>
+                <v-col> Pick a rental. </v-col>
+              </v-scroll-y-transition>
+            </v-row>
+            <v-scroll-y-transition>
+              <v-row v-if="selectedElement">
+                <v-col>
+                  <v-list class="flat-sheet">
+                    <v-list-item>
+                      <v-list-item-avatar class="white--text" color="purple">
+                        <!-- TODO: load avatar -->
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          >{{ selectedRental.rental.renter.firstName }}
+                          {{
+                            selectedRental.rental.renter.lastName
+                          }}</v-list-item-title
+                        >
+                      </v-list-item-content>
+
+                      <v-list-item-action>
+                        <!-- TODO: open chat with user -->
+                        <v-btn class="orange--text" icon>
+                          <v-icon>chat</v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list-item>
+                      <v-row>
+                        <v-col cols="2"><v-icon>today</v-icon></v-col>
+                        <v-col cols="10"
+                          ><div class="text-truncate text-right">
+                            {{ getDateInterval(selectedRental.rental) }}
+                          </div></v-col
+                        >
+                      </v-row>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-row>
+                        <v-col cols="2"><v-icon>location_on</v-icon></v-col>
+                        <v-col cols="10"
+                          ><div class="text-truncate text-right">
+                            {{ ownerBoats[activeBoat].port.name }}
+                          </div></v-col
+                        >
+                      </v-row>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
+              </v-row>
+            </v-scroll-y-transition>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-scroll-y-transition>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import * as easings from 'vuetify/es5/services/goto/easing-patterns'
+//import * as easings from "vuetify/es5/services/goto/easing-patterns";
 export default {
   name: "OwnerBoats",
   data: () => ({
-    activeBoat: 0, //change to null
+    activeBoat: null, //change to null
     calendarTitle: "",
     focus: "",
     selectedRental: {},
     selectedElement: null,
     activeBoatObj: {
-      name: "asdasd",
-      description: "asdasd",
-      pricePerDay: "123",
-      length: "123",
-      passengerCapacity: "12",
-      numberOfCabins: "1",
-      numberOfBathrooms: "1",
+      name: "",
+      description: "",
+      pricePerDay: "",
+      length: "",
+      passengerCapacity: "",
+      numberOfCabins: "",
+      numberOfBathrooms: "",
     },
     activeBoatRentals: [],
   }),
@@ -267,13 +276,16 @@ export default {
       this.activeBoatRentals = this.ownerBoats[idx].rentals;
       this.selectedRental = {};
       this.selectedElement = null;
-      this.focus= "";
+      this.focus = "";
     },
     showRentalDetails({ nativeEvent, event }) {
-      const magic = 1500;
+      //const magic = 1500;
       this.selectedRental = event;
       this.selectedElement = nativeEvent.target;
-      this.$vuetify.goTo(parseInt(document.body.scrollHeight) + magic, { duration: 2000, easing: easings.easeInOutCubic});
+    //   this.$vuetify.goTo(parseInt(document.body.scrollHeight) + magic, {
+    //     duration: 2000,
+    //     easing: easings.easeInOutCubic,
+    //   });
     },
     getEventsFromRentals: (rentals) => {
       const colors = [
@@ -336,7 +348,6 @@ export default {
   },
   async mounted() {
     await this.fetchBoatsByOwnerId(this.user.id);
-    this.calendarTitle = this.$refs.calendar.title;
   },
 };
 </script>
