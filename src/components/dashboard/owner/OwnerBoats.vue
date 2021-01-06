@@ -228,6 +228,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import * as easings from 'vuetify/es5/services/goto/easing-patterns'
 export default {
   name: "OwnerBoats",
   data: () => ({
@@ -264,10 +265,15 @@ export default {
         numberOfBathrooms: this.ownerBoats[idx].numberOfBathrooms,
       };
       this.activeBoatRentals = this.ownerBoats[idx].rentals;
+      this.selectedRental = {};
+      this.selectedElement = null;
+      this.focus= "";
     },
     showRentalDetails({ nativeEvent, event }) {
+      const magic = 1500;
       this.selectedRental = event;
       this.selectedElement = nativeEvent.target;
+      this.$vuetify.goTo(parseInt(document.body.scrollHeight) + magic, { duration: 2000, easing: easings.easeInOutCubic});
     },
     getEventsFromRentals: (rentals) => {
       const colors = [
