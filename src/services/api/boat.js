@@ -23,10 +23,16 @@ const postBoat = async (boatData) => {
     return response.data;
 }
 
+const updateBoat = async (id, boatData) => {
+    const response = await Axios.patch(`${API_URL}${id}`, boatData, { headers: await authHeader() });
+    return response.data;
+}
+
 
 export default {
     getAllBoats,
     getBoatById,
     postBoat,
     getBoatsByOwnerId,
+    updateBoat,
 }

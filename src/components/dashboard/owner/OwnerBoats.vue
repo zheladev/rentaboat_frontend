@@ -131,7 +131,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-btn>EDIT NIGGA</v-btn>
+                <v-btn @click="updateBoat">EDIT</v-btn>
               </v-col>
             </v-row>
           </v-col>
@@ -254,6 +254,7 @@ export default {
       passengerCapacity: "",
       numberOfCabins: "",
       numberOfBathrooms: "",
+      id: "",
     },
     activeBoatRentals: [],
   }),
@@ -261,10 +262,11 @@ export default {
     ...mapGetters(["ownerBoats", "user"]),
   },
   methods: {
-    ...mapActions(["fetchBoatsByOwnerId"]),
+    ...mapActions(["fetchBoatsByOwnerId", "modifyBoat"]),
     selectBoat(idx) {
       this.activeBoat = idx;
       this.activeBoatObj = {
+        id: this.ownerBoats[idx].id,
         name: this.ownerBoats[idx].name,
         description: this.ownerBoats[idx].description,
         pricePerDay: this.ownerBoats[idx].pricePerDay,
@@ -277,6 +279,12 @@ export default {
       this.selectedRental = {};
       this.selectedElement = null;
       this.focus = "";
+    },
+    updateBoat() {
+        this.modifyBoat({
+            boatId: this.activeBoatObj.id,
+            boatData: this.activeBoatObj
+        });
     },
     showRentalDetails({ nativeEvent, event }) {
       //const magic = 1500;
