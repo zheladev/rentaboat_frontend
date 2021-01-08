@@ -6,7 +6,7 @@
         <v-row>
           <v-col>
             <v-slide-group v-if="ownerBoats" show-arrows>
-              <!-- Not working yet as billing info is not implemented in backend -->
+              <!-- TODO: make responsive yo -->
               <v-slide-item
                 v-for="(ownerBoat, i) in ownerBoats"
                 :key="i"
