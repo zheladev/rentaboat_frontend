@@ -27,51 +27,37 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
-  name: "ClientDashboard",
+  name: "OwnerDashboard",
   data: () => ({
     isLoaded: false,
     mini: true,
   }),
   computed: {
-    ...mapGetters(["userRentals", "user"]),
-    isOwner() {
-      return this.user.userType.intValue === 2;
-    },
+    ...mapGetters(["user"]),
     menuItems() {
       return [
         {
-          title: "View upcoming rentals",
-          link: "upcomingRentals",
-          icon: "today",
-        },
-        {
-          title: "View past rentals",
-          link: "rentalHistory",
+          title: "Your boats",
+          link: "ownerBoats",
           icon: "directions_boat",
         },
         {
           title: "Messages",
-          link: "clientMessages",
+          link: "ownerMessages",
           icon: "message",
         },
         {
           title: "Contact support",
-          link: "clientSupport",
+          link: "ownerSupport",
           icon: "help",
         },
-        // {
-        //     title: "Rent your boat",
-        //     link: "NOT_IMPLEMENTED",
-        //     icon: "upgrade"
-        // }
       ];
     },
   },
   methods: {
-    ...mapActions(["fetchRentalsByUser"]),
+    ...mapActions([]),
   },
   mounted() {
-    this.fetchRentalsByUser(this.user.id);
     //prevent child view from being overlapped by nav drawer
     this.$forceUpdate(); 
     this.isLoaded = true;

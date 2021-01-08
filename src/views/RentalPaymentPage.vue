@@ -22,9 +22,6 @@ export default {
             return this.$route.query.endDate;
         }
     },
-    mounted() {
-        console.log(this.id)
-    }
 }
 </script>
 
