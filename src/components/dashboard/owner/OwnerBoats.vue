@@ -130,6 +130,18 @@
               </v-col>
             </v-row>
             <v-row>
+                <v-col cols="6">
+                    <v-select
+                        v-model="activeBoatObj.port"
+                        label="Port"
+                        prepend-icon="location_on"
+                        :items="availablePorts"
+                        > <!-- TODO: google map? -->
+                        
+                    </v-select>
+                </v-col>
+            </v-row>
+            <v-row>
               <v-col>
                 <v-btn @click="updateBoat">EDIT</v-btn>
               </v-col>
@@ -255,14 +267,24 @@ export default {
       numberOfCabins: "",
       numberOfBathrooms: "",
       id: "",
+      port: {
+          name: ""
+      }
     },
     activeBoatRentals: [],
   }),
   computed: {
-    ...mapGetters(["ownerBoats", "user"]),
+    ...mapGetters(["ownerBoats", "user", "allPorts"]),
+    availablePorts() {
+        //TODO: filter ports or whatever I want to do with them
+        return this.allPorts.map(p => ({
+            text: p.name,
+            value: p
+        }));
+    }
   },
   methods: {
-    ...mapActions(["fetchBoatsByOwnerId", "modifyBoat"]),
+    ...mapActions(["fetchBoatsByOwnerId", "modifyBoat", "fetchPorts"]),
     selectBoat(idx) {
       this.activeBoat = idx;
       this.activeBoatObj = {
@@ -274,6 +296,7 @@ export default {
         passengerCapacity: this.ownerBoats[idx].passengerCapacity,
         numberOfCabins: this.ownerBoats[idx].numberOfCabins,
         numberOfBathrooms: this.ownerBoats[idx].numberOfBathrooms,
+        port: this.ownerBoats[idx].port,
       };
       this.activeBoatRentals = this.ownerBoats[idx].rentals;
       this.selectedRental = {};
@@ -356,6 +379,7 @@ export default {
   },
   async mounted() {
     await this.fetchBoatsByOwnerId(this.user.id);
+    await this.fetchPorts();
   },
 };
 </script>
