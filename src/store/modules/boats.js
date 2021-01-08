@@ -35,7 +35,11 @@ const actions = {
         const boats = await Api.getBoatsByOwnerId(ownerId);
         commit('setOwnerBoats', boats);
     },
-    async modifyBoat({ commit },{boatId, boatData}) {
+    async createBoat({ commit }, boatData) {
+        const boat = await Api.postBoat(boatData);
+        commit('createBoat', boat);
+    },
+    async modifyBoat({ commit }, { boatId, boatData }) {
         const modifiedBoat = await Api.updateBoat(boatId, boatData);
         if (modifiedBoat.id === boatId) {
             const replaceIdx = state.ownerBoats.findIndex(b => b.id === boatId);
@@ -54,6 +58,7 @@ const mutations = {
     setCurrBoat: (state, currBoat) => (state.currBoat = currBoat),
     setOwnerBoats: (state, ownerBoats) => (state.ownerBoats = ownerBoats),
     updateOwnerBoat: (state, ownerBoats) => { state.ownerBoats = ownerBoats; state.updateStatus = true },
+    createBoat: (state, boat) => { state.ownerBoats = state.ownerBoats.concat([boat]) },
     failedUpdateOwnerBoat: (state) => { state.updateStatus = false },
 }
 

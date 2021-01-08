@@ -41,19 +41,192 @@
                   </v-row>
                 </v-card>
               </v-slide-item>
-              <v-slide-item v-if="ownerBoats">
+              <v-slide-item v-slot="{ toggle }">
                 <v-card
                   class="ma-4 grey lighten-3"
                   height="150"
                   width="200"
                   mx-0
-                  ><v-row
-                    class="fill-height mx-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-icon color="grey" size="48" v-text="'add'"></v-icon>
-                  </v-row>
+                  @click="toggle"
+                >
+                  <!-- Boat post form dialog -->
+                  <v-dialog v-model="dialog" persistent max-width="700px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-row
+                        class="fill-height mx-0"
+                        align="center"
+                        justify="center"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon color="grey" size="48" v-text="'add'"></v-icon>
+                      </v-row>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                        <v-row>
+                          <v-col>
+                            <span class="headline">New Boat</span>
+                          </v-col>
+                        </v-row>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container>
+                          <form @submit.prevent>
+                            <v-row>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.name"
+                                  :error-messages="nameErrors"
+                                  label="Boat name"
+                                  required
+                                  @input="$v.createBoatData.name.$touch()"
+                                  @blur="$v.createBoatData.name.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.pricePerDay"
+                                  :error-messages="pricePerDayErrors"
+                                  label="Price per day"
+                                  required
+                                  @input="
+                                    $v.createBoatData.pricePerDay.$touch()
+                                  "
+                                  @blur="$v.createBoatData.pricePerDay.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col>
+                                <v-textarea
+                                  v-model="createBoatData.description"
+                                  :error-messages="descriptionErrors"
+                                  label="Boat description"
+                                  required
+                                  filled
+                                  @input="
+                                    $v.createBoatData.description.$touch()
+                                  "
+                                  @blur="$v.createBoatData.description.$touch()"
+                                ></v-textarea>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col>
+                                <!-- TODO: fetch boat types and use dropdown -->
+                                <v-text-field
+                                  v-model="createBoatData.boatType"
+                                  :error-messages="boatTypeErrors"
+                                  label="Boat type"
+                                  required
+                                  @input="$v.createBoatData.boatType.$touch()"
+                                  @blur="$v.createBoatData.boatType.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.model"
+                                  :error-messages="modelErrors"
+                                  label="Boat model"
+                                  required
+                                  @input="$v.createBoatData.model.$touch()"
+                                  @blur="$v.createBoatData.model.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col>
+                                <v-select
+                                  v-model="createBoatData.port"
+                                  label="Port"
+                                  :items="availablePortsStr"
+                                  :error-messages="portErrors"
+                                  required
+                                  @input="$v.createBoatData.port.$touch()"
+                                  @blur="$v.createBoatData.port.$touch()"
+                                >
+                                </v-select>
+                              </v-col>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.shipyard"
+                                  :error-messages="shipyardErrors"
+                                  label="Boat shipyard"
+                                  required
+                                  @input="$v.createBoatData.shipyard.$touch()"
+                                  @blur="$v.createBoatData.shipyard.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.length"
+                                  :error-messages="lengthErrors"
+                                  label="Boat length"
+                                  required
+                                  @input="$v.createBoatData.length.$touch()"
+                                  @blur="$v.createBoatData.length.$touch()"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.passengerCapacity"
+                                  :error-messages="passengerCapacityErrors"
+                                  label="Passenger Capacity"
+                                  required
+                                  @input="
+                                    $v.createBoatData.passengerCapacity.$touch()
+                                  "
+                                  @blur="
+                                    $v.createBoatData.passengerCapacity.$touch()
+                                  "
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.numberOfCabins"
+                                  :error-messages="numberOfCabinsErrors"
+                                  label="Nº of cabins"
+                                  required
+                                  @input="
+                                    $v.createBoatData.numberOfCabins.$touch()
+                                  "
+                                  @blur="
+                                    $v.createBoatData.numberOfCabins.$touch()
+                                  "
+                                ></v-text-field>
+                              </v-col>
+                              <v-col>
+                                <v-text-field
+                                  v-model="createBoatData.numberOfBathrooms"
+                                  :error-messages="numberOfBathroomsErrors"
+                                  label="Nº of bathrooms"
+                                  required
+                                  @input="
+                                    $v.createBoatData.numberOfBathrooms.$touch()
+                                  "
+                                  @blur="
+                                    $v.createBoatData.numberOfBathrooms.$touch()
+                                  "
+                                ></v-text-field>
+                              </v-col>
+                            </v-row>
+                          </form>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="closeBoatCreationDialog">
+                          Close
+                        </v-btn>
+                        <v-btn text @click="submitBoat"> Save </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </v-card>
               </v-slide-item>
             </v-slide-group>
@@ -130,16 +303,16 @@
               </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6">
-                    <v-select
-                        v-model="activeBoatObj.port"
-                        label="Port"
-                        prepend-icon="location_on"
-                        :items="availablePorts"
-                        > <!-- TODO: google map? -->
-                        
-                    </v-select>
-                </v-col>
+              <v-col cols="6">
+                <v-select
+                  v-model="activeBoatObj.port"
+                  label="Port"
+                  prepend-icon="location_on"
+                  :items="availablePorts"
+                >
+                  <!-- TODO: google map? -->
+                </v-select>
+              </v-col>
             </v-row>
             <v-row>
               <v-col>
@@ -249,42 +422,162 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { validationMixin } from "vuelidate";
+import { required, decimal, numeric, alphaNum } from "vuelidate/lib/validators";
 //import * as easings from "vuetify/es5/services/goto/easing-patterns";
 export default {
+  mixins: [validationMixin],
   name: "OwnerBoats",
   data: () => ({
+    createBoatDialogLoading: false,
+    dialog: false,
     activeBoat: null, //change to null
     calendarTitle: "",
     focus: "",
     selectedRental: {},
     selectedElement: null,
-    activeBoatObj: {
-      name: "",
+    activeBoatObj: null,
+    activeBoatRentals: [],
+    createBoatData: {
+      shipyard: "",
+      boatType: "",
+      port: "",
       description: "",
       pricePerDay: "",
       length: "",
+      model: "",
       passengerCapacity: "",
       numberOfCabins: "",
       numberOfBathrooms: "",
-      id: "",
-      port: {
-          name: ""
-      }
+      name: "",
     },
-    activeBoatRentals: [],
   }),
+  validations: {
+    createBoatData: {
+      name: { required },
+      shipyard: { required, alphaNum },
+      boatType: { required },
+      port: { required },
+      description: { required },
+      pricePerDay: { required, decimal },
+      length: { required, decimal },
+      model: { required, alphaNum },
+      passengerCapacity: { required, numeric },
+      numberOfCabins: { required, numeric },
+      numberOfBathrooms: { required, numeric },
+    },
+  },
   computed: {
     ...mapGetters(["ownerBoats", "user", "allPorts"]),
     availablePorts() {
-        //TODO: filter ports or whatever I want to do with them
-        return this.allPorts.map(p => ({
-            text: p.name,
-            value: p
-        }));
-    }
+      //TODO: filter ports or whatever I want to do with them
+      return this.allPorts.map((p) => ({
+        text: p.name,
+        value: p,
+      }));
+    },
+    availablePortsStr() {
+      //TODO: filter ports or whatever I want to do with them
+      return this.allPorts.map((p) => p.name);
+    },
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.name.$dirty) return errors;
+      !this.$v.createBoatData.name.required &&
+        errors.push("You must provide a boat name.");
+      return errors;
+    },
+    shipyardErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.shipyard.$dirty) return errors;
+      !this.$v.createBoatData.shipyard.required &&
+        errors.push("Shipyard is required.");
+      !this.$v.createBoatData.shipyard.alphaNum &&
+        errors.push("Shipyards can only contain numbers and letters.");
+      return errors;
+    },
+    boatTypeErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.boatType.$dirty) return errors;
+      !this.$v.createBoatData.boatType.required &&
+        errors.push("Boat type is required");
+      return errors;
+    },
+    portErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.port.$dirty) return errors;
+      !this.$v.createBoatData.port.required && errors.push("Port is required");
+      return errors;
+    },
+    descriptionErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.description.$dirty) return errors;
+      !this.$v.createBoatData.description.required &&
+        errors.push("You must provide a description for the boat.");
+      return errors;
+    },
+    pricePerDayErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.pricePerDay.$dirty) return errors;
+      !this.$v.createBoatData.pricePerDay.required &&
+        errors.push("You must provide a daily price.");
+      !this.$v.createBoatData.pricePerDay.decimal &&
+        errors.push("Please provide a numerical value.");
+      return errors;
+    },
+    lengthErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.length.$dirty) return errors;
+      !this.$v.createBoatData.length.required &&
+        errors.push("length is required.");
+      !this.$v.createBoatData.length.decimal &&
+        errors.push("Please provide a numerical value.");
+      return errors;
+    },
+    modelErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.model.$dirty) return errors;
+      !this.$v.createBoatData.model.required &&
+        errors.push("You must provide a model.");
+      !this.$v.createBoatData.model.alphaNum &&
+        errors.push("Models can only contain numbers and letters.");
+      return errors;
+    },
+    passengerCapacityErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.passengerCapacity.$dirty) return errors;
+      !this.$v.createBoatData.passengerCapacity.required &&
+        errors.push("You must provide a Passenger Capacity.");
+      !this.$v.createBoatData.passengerCapacity.numeric &&
+        errors.push("Please provide a numeric value.");
+      return errors;
+    },
+    numberOfCabinsErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.numberOfCabins.$dirty) return errors;
+      !this.$v.createBoatData.numberOfCabins.required &&
+        errors.push("You must provide a number of cabins.");
+      !this.$v.createBoatData.numberOfCabins.numeric &&
+        errors.push("Please provide a numeric value.");
+      return errors;
+    },
+    numberOfBathroomsErrors() {
+      const errors = [];
+      if (!this.$v.createBoatData.numberOfBathrooms.$dirty) return errors;
+      !this.$v.createBoatData.numberOfBathrooms.required &&
+        errors.push("numberOfBathrooms is required.");
+      !this.$v.createBoatData.numberOfBathrooms.numeric &&
+        errors.push("Please provide a numeric value.");
+      return errors;
+    },
   },
   methods: {
-    ...mapActions(["fetchBoatsByOwnerId", "modifyBoat", "fetchPorts"]),
+    ...mapActions([
+      "fetchBoatsByOwnerId",
+      "modifyBoat",
+      "fetchPorts",
+      "createBoat",
+    ]),
     selectBoat(idx) {
       this.activeBoat = idx;
       this.activeBoatObj = {
@@ -303,20 +596,46 @@ export default {
       this.selectedElement = null;
       this.focus = "";
     },
+    closeBoatCreationDialog() {
+      this.dialog = false;
+      this.$v.$reset();
+      this.clearObject(this.createBoatData);
+    },
+    clearObject(obj) {
+      for (const key of Object.keys(obj)) {
+        obj[key] = "";
+      }
+    },
+    async submitBoat() {
+      this.createBoatDialogLoading = true;
+      console.log(this.createBoatData)
+      this.$v.createBoatData.$touch();
+      if (this.$v.createBoatData.$invalid) {
+        console.log("hi");
+        console.log(this.$v);
+      } else {
+        //valid data
+        await this.createBoat(this.createBoatData);
+        this.createBoatDialogLoading = false;
+        this.dialog = false;
+        this.$v.$reset();
+        this.clearObject(this.createBoatData);
+      }
+    },
     updateBoat() {
-        this.modifyBoat({
-            boatId: this.activeBoatObj.id,
-            boatData: this.activeBoatObj
-        });
+      this.modifyBoat({
+        boatId: this.activeBoatObj.id,
+        boatData: this.activeBoatObj,
+      });
     },
     showRentalDetails({ nativeEvent, event }) {
       //const magic = 1500;
       this.selectedRental = event;
       this.selectedElement = nativeEvent.target;
-    //   this.$vuetify.goTo(parseInt(document.body.scrollHeight) + magic, {
-    //     duration: 2000,
-    //     easing: easings.easeInOutCubic,
-    //   });
+      //   this.$vuetify.goTo(parseInt(document.body.scrollHeight) + magic, {
+      //     duration: 2000,
+      //     easing: easings.easeInOutCubic,
+      //   });
     },
     getEventsFromRentals: (rentals) => {
       const colors = [
