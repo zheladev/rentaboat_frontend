@@ -33,15 +33,15 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## TODO
 
 - [x] Registration page
-- [ ] Rental payment page
+- [x] Rental payment page
 - [ ] User dashboard
   - [ ] overview
   - [ ] Support
   - [ ] Messaging
 - [ ] Owner dashboard
-  - [ ] owned boats
+  - [x] owned boats
   - [ ] upcoming owned boat rentals
-  - [ ] register new boat
+  - [x] register new boat
 
 ### Don't work on this until user features are complete
 
