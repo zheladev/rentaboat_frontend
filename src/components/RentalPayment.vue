@@ -702,7 +702,6 @@ export default {
         //invalid data
       } else {
         const data = JSON.parse(JSON.stringify(this.newBillingInfo));
-        console.log(data);
         await this.createBillingInformation({ ...data, id: this.user.id});
         this.dialog = false;
         this.$v.$reset();
@@ -719,7 +718,6 @@ export default {
       }
     },
     async submit() {
-        console.log(this.newBillingInfo)
       try {
         await this.createRental({
           startDate: this.startDate,
