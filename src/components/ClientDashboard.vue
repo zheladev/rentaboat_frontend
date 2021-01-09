@@ -1,6 +1,6 @@
 <template>
   <v-container fluid pa-0>
-    <v-navigation-drawer app clipped :mini-variant.sync="mini" permanent expand-on-hover>
+    <v-navigation-drawer class="light-blue lighten-5" app clipped :mini-variant.sync="mini" permanent expand-on-hover>
       <v-list nav dense>
         <v-list-item
           v-for="item in menuItems"

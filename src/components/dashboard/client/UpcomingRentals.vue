@@ -86,10 +86,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-divider></v-divider>
-    <v-container class="content-section-container">
-      <div class="headline">PLACEHOLDER</div>
-    </v-container>
   </v-container>
 </template>
 
