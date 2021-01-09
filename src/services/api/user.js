@@ -6,6 +6,7 @@ const API_URL_BILLING_APPEND = `/billing`
 
 const getUserById = async (userId) => {
     const response = await Axios.get(`${API_URL}${userId}`, { headers: await authHeader() });
+    return response.data;
 }
 
 const createBillingInformation = async (userId, billingInfoData) => {
@@ -18,9 +19,15 @@ const getBillingInformationByUserId = async (userId) => {
     return response.data;
 }
 
+const promoteToOwner = async (userId) => {
+    const response = await Axios.patch(`${API_URL}${userId}/promote`, { headers: await authHeader() });
+    return response.data;
+}
+
 
 export default {
     getUserById,
+    promoteToOwner,
     createBillingInformation,
     getBillingInformationByUserId
 }

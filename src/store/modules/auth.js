@@ -1,4 +1,5 @@
-import Api from '../../services/api/auth'
+import AuthApi from '../../services/api/auth'
+import UserApi from '../../services/api/auth'
 
 const user = JSON.parse(localStorage.getItem('user'));
 /**
@@ -32,7 +33,7 @@ const getters = {
 
 const actions = {
     async login({ commit } , loginInfo) {
-        const login = await Api.login(loginInfo);
+        const login = await AuthApi.login(loginInfo);
 
         if (login.status === 200) {
             commit('loginSuccess', login.user);
@@ -42,16 +43,20 @@ const actions = {
         
     },
     async logout({ commit }) {
-        Api.logout();
+        AuthApi.logout();
         commit('logout');
     },
     async signup({ commit }, registrationInfo) {
-        const registrationStatus = await Api.register(registrationInfo);
+        const registrationStatus = await AuthApi.register(registrationInfo);
         if (registrationStatus.status === 200) {
             commit('registrationSuccess');
         } else {
             commit('registrationFailure');
         }
+    },
+    async promoteUserToOwner({ commit }, id) {
+        const promotedUser = await UserApi.promoteToOwner(id);
+        commit('promoteUserToOwner', promotedUser);
     }
 }
 
@@ -77,6 +82,9 @@ const mutations = {
 
     registrationFailure(state) {
         state.successfulRegistration = false;
+    },
+    promoteUserToOwner(state, user) {
+        state.user = user;
     }
 }
 

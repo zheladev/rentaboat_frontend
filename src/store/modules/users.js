@@ -22,8 +22,7 @@ const actions = {
     async createBillingInformation({ commit }, id, billingInfoData) {
         const createdBillingInfo = await Api.createBillingInformation(id, billingInfoData);
         commit('createBillingInformation', createdBillingInfo);
-    }
-
+    },
 }
 
 const mutations = {
