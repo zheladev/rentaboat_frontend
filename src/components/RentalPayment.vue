@@ -11,7 +11,7 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col>
-                    <v-slide-group v-model="slideModel" show-arrows>
+                    <v-slide-group v-model="slideModel" show-arrows v-if="userBillingInfo">
                       <!-- Not working yet as billing info is not implemented in backend -->
                       <v-slide-item
                         v-for="(billingInfo, i) in userBillingInfo"
@@ -27,7 +27,7 @@
                           @click="
                             () => {
                               toggle();
-                              setBillingInfo();
+                              selectBillingInfo(i);
                             }
                           "
                         >
@@ -53,7 +53,7 @@
                           </v-row>
                         </v-card>
                       </v-slide-item>
-                      <v-slide-item v-slot="{ toggle }">
+                      <v-slide-item v-slot="{ toggle }" v-if="billingInformationArray">
                         <v-card
                           class="ma-4 grey lighten-3"
                           height="150"
@@ -88,15 +88,21 @@
                                 >
                               </v-card-title>
                               <v-card-text>
-                                  <!-- TODO: Add validation -->
                                 <v-container>
                                   <form @submit.prevent>
                                     <v-row>
                                       <v-col>
                                         <v-text-field
                                           v-model="newBillingInfo.address"
+                                          :error-messages="addressErrors"
                                           label="Address"
                                           required
+                                          @input="
+                                            $v.newBillingInfo.address.$touch()
+                                          "
+                                          @blur="
+                                            $v.newBillingInfo.address.$touch()
+                                          "
                                         />
                                       </v-col>
                                     </v-row>
@@ -105,12 +111,28 @@
                                         <v-text-field
                                           v-model="newBillingInfo.zipCode"
                                           label="Zip Code"
+                                          :error-messages="zipCodeErrors"
+                                          required
+                                          @input="
+                                            $v.newBillingInfo.zipCode.$touch()
+                                          "
+                                          @blur="
+                                            $v.newBillingInfo.zipCode.$touch()
+                                          "
                                         />
                                       </v-col>
                                       <v-col>
                                         <v-text-field
                                           v-model="newBillingInfo.city"
+                                          :error-messages="cityErrors"
                                           label="City"
+                                          required
+                                          @input="
+                                            $v.newBillingInfo.city.$touch()
+                                          "
+                                          @blur="
+                                            $v.newBillingInfo.city.$touch()
+                                          "
                                         />
                                       </v-col>
                                     </v-row>
@@ -119,7 +141,15 @@
                                         <v-select
                                           v-model="newBillingInfo.country"
                                           :items="countryList"
+                                          :error-messages="countryErrors"
                                           label="Country"
+                                          required
+                                          @input="
+                                            $v.newBillingInfo.country.$touch()
+                                          "
+                                          @blur="
+                                            $v.newBillingInfo.country.$touch()
+                                          "
                                         />
                                       </v-col>
                                     </v-row>
@@ -131,7 +161,7 @@
                                 <v-btn text @click="dialog = false">
                                   Close
                                 </v-btn>
-                                <v-btn text @click="dialog = false">
+                                <v-btn text @click="submitBillingInfo">
                                   Save
                                 </v-btn>
                               </v-card-actions>
@@ -323,7 +353,10 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { validationMixin } from "vuelidate";
+import { required, numeric } from "vuelidate/lib/validators";
 export default {
+  mixins: [validationMixin],
   name: "RentalPayment",
   data: () => ({
     panel: [0],
@@ -335,6 +368,7 @@ export default {
       city: "",
       country: "",
     },
+    activeBillingInfo: 0,
     billingInfo: {
       address: "",
       zipCode: "",
@@ -592,9 +626,52 @@ export default {
       "Åland Islands",
     ],
   }),
+  validations: {
+    newBillingInfo: {
+      address: { required },
+      zipCode: { required, numeric },
+      city: { required },
+      country: { required },
+    },
+  },
   props: ["boatId", "startDate", "endDate"],
   computed: {
-    ...mapGetters(["currBoat", "hasSuccessfullyCreatedRental"]),
+    ...mapGetters([
+      "user",
+      "currBoat",
+      "hasSuccessfullyCreatedRental",
+      "billingInformationArray",
+    ]),
+    addressErrors() {
+      const errors = [];
+      if (!this.$v.newBillingInfo.address.$dirty) return errors;
+      !this.$v.newBillingInfo.address.required &&
+        errors.push("You must provide an address.");
+      return errors;
+    },
+    zipCodeErrors() {
+      const errors = [];
+      if (!this.$v.newBillingInfo.zipCode.$dirty) return errors;
+      !this.$v.newBillingInfo.zipCode.required &&
+        errors.push("You must provide a zip code.");
+      !this.$v.newBillingInfo.zipCode.numeric &&
+        errors.push("You must provide a valid zip code.");
+      return errors;
+    },
+    cityErrors() {
+      const errors = [];
+      if (!this.$v.newBillingInfo.city.$dirty) return errors;
+      !this.$v.newBillingInfo.city.required &&
+        errors.push("You must provide a city.");
+      return errors;
+    },
+    countryErrors() {
+      const errors = [];
+      if (!this.$v.newBillingInfo.country.$dirty) return errors;
+      !this.$v.newBillingInfo.country.required &&
+        errors.push("You must provide a country.");
+      return errors;
+    },
     totalPrice() {
       return this.currBoat.pricePerDay * (this.durationInDays + 1);
     },
@@ -604,45 +681,37 @@ export default {
       return Math.ceil(Math.abs(endDate - startDate) / (1000 * 60 * 60 * 24));
     },
     userBillingInfo() {
-      //fetch from backend once implemented
-      return [
-        {
-          address: "C/ Falsa 123 5",
-          zipCode: "45723",
-          city: "Valencia",
-          country: "Spain",
-        },
-        {
-          address: "C/ Verdadera 123 5",
-          zipCode: "42223",
-          city: "Madrid",
-          country: "Spain",
-        },
-        {
-          address: "C/ Ik ben zurren mein zimbrelen 123 5",
-          zipCode: "28374",
-          city: "Den Haag",
-          country: "Netherlands",
-        },
-        {
-          address: "C/ Verdadera 123 5",
-          zipCode: "42223",
-          city: "Madrid",
-          country: "Spain",
-        },
-        {
-          address: "C/ Ik ben zurren mein zimbrelen 123 5",
-          zipCode: "28374",
-          city: "Den Haag",
-          country: "Netherlands",
-        },
-      ];
+      return this.billingInformationArray;
     },
   },
   methods: {
-    ...mapActions(["createRental", "fetchBoatById"]),
-    setBillingInfo() {
-      const selectedBillingInfo = this.userBillingInfo[this.slideModel];
+    ...mapActions([
+      "createRental",
+      "fetchBoatById",
+      "fetchBillingInformation",
+      "createBillingInformation",
+    ]),
+    clearObject(obj) {
+      for (const key of Object.keys(obj)) {
+        obj[key] = "";
+      }
+    },
+    async submitBillingInfo() {
+      this.$v.newBillingInfo.$touch();
+      if (this.$v.newBillingInfo.$invalid) {
+        //invalid data
+      } else {
+        const data = JSON.parse(JSON.stringify(this.newBillingInfo));
+        console.log(data);
+        await this.createBillingInformation({ ...data, id: this.user.id});
+        this.dialog = false;
+        this.$v.$reset();
+        this.clearObject(this.newBillingInfo)
+      }
+    },
+    selectBillingInfo(idx) {
+      this.activeBbillingInfo = idx;
+      const selectedBillingInfo = this.userBillingInfo[idx];
       if (selectedBillingInfo) {
         this.billingInfo = {
           ...selectedBillingInfo,
@@ -650,6 +719,7 @@ export default {
       }
     },
     async submit() {
+        console.log(this.newBillingInfo)
       try {
         await this.createRental({
           startDate: this.startDate,
@@ -661,12 +731,13 @@ export default {
       }
 
       if (this.hasSuccessfullyCreatedRental) {
-        this.$router.push("/dashboard/upcomingRentals"); //change
+        this.$router.push("/clientDashboard/upcomingRentals"); //change
       }
     },
   },
   async mounted() {
     await this.fetchBoatById(this.boatId);
+    await this.fetchBillingInformation(this.user.id);
   },
 };
 </script>

@@ -608,13 +608,12 @@ export default {
     },
     async submitBoat() {
       this.createBoatDialogLoading = true;
-      console.log(this.createBoatData)
       this.$v.createBoatData.$touch();
       if (this.$v.createBoatData.$invalid) {
-        console.log("hi");
-        console.log(this.$v);
+          //invalid data
       } else {
         //valid data
+        console.log(this.createBoatData)
         await this.createBoat(this.createBoatData);
         this.createBoatDialogLoading = false;
         this.dialog = false;

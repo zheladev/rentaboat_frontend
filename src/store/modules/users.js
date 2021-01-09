@@ -19,8 +19,15 @@ const actions = {
         const billingInformation = await Api.getBillingInformationByUserId(id);
         commit('setBillingInformation', billingInformation);
     },
-    async createBillingInformation({ commit }, id, billingInfoData) {
-        const createdBillingInfo = await Api.createBillingInformation(id, billingInfoData);
+    async createBillingInformation({ commit }, billingInfoData) {
+        const id = billingInfoData.id;
+        const data = {
+            address: billingInfoData.address,
+            zipCode: billingInfoData.zipCode,
+            city: billingInfoData.city,
+            country: billingInfoData.country,
+        }
+        const createdBillingInfo = await Api.createBillingInformation(id, data);
         commit('createBillingInformation', createdBillingInfo);
     },
 }
