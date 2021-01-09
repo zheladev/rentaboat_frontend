@@ -1,5 +1,6 @@
 <template>
   <v-container fluid pa-0>
+      <!--TODO: add styling -->
     <v-container class="content-section-container">
       <div class="headline pb-5">Upgrade account</div>
 
