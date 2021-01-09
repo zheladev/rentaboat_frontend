@@ -1,10 +1,14 @@
 <template>
   <v-container fluid pa-0>
     <v-container class="content-section-container">
-      <div class="headline">Upgrade account</div>
-      <v-container>
-          {{billingInformationArray}}
-      </v-container>
+      <div class="headline pb-5">Upgrade account</div>
+
+      <div class="text-body-1">Become part of Rentaboat's family. Rent your boat now.</div>
+    </v-container>
+    <v-container>
+        <v-btn @click="upgradeAccount">
+            Rent your boat
+        </v-btn>
     </v-container>
   </v-container>
 </template>
@@ -17,7 +21,11 @@ export default {
         ...mapGetters(["billingInformationArray", "user"])
     },
     methods: {
-        ...mapActions(["fetchBillingInformation"])
+        ...mapActions(["fetchBillingInformation", "promoteToOwner"]),
+        async upgradeAccount() {
+            await this.promoteToOwner(this.user.id);
+            this.$router.push('/ownerDashboard');
+        }
     },
     async mounted() {
         await this.fetchBillingInformation(this.user.id);
