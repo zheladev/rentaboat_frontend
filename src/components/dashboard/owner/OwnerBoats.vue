@@ -291,7 +291,7 @@
                 <v-text-field
                   v-model="activeBoatObj.numberOfBathrooms"
                   label="Nº of bathrooms"
-                  prepend-icon="waves"
+                  prepend-icon="wc"
                 />
               </v-col>
               <v-col cols="4">

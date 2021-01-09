@@ -10,7 +10,6 @@ import UpcomingRentals from '@/components/dashboard/client/UpcomingRentals.vue';
 import Support from '@/components/dashboard/Support.vue';
 import Messages from '@/components/dashboard/Messages.vue';
 import OwnerBoats from '@/components/dashboard/owner/OwnerBoats.vue';
-import OwnerBoat from '@/components/dashboard/owner/OwnerBoat.vue';
 import UpgradeAccount from '@/components/dashboard/client/UpgradeAccount.vue';
 import AUTH_LEVELS from '../consts';
 
@@ -40,11 +39,6 @@ const routes = [
                 path: 'support',
                 name: 'ownerSupport',
                 component: Support,
-            },
-            {
-                path: 'boat/:id',
-                name: 'ownerBoatDetails',
-                component: OwnerBoat,
             },
         ]
     },

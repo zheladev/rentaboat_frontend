@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container pa-0>
     <landing-carousel />
     <boat-grid :boats="allBoats" />
   </v-container>
