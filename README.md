@@ -38,6 +38,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
   - [ ] overview
   - [ ] Support
   - [ ] Messaging
+  - [ ] Become owner
 - [ ] Owner dashboard
   - [x] owned boats
   - [ ] upcoming owned boat rentals

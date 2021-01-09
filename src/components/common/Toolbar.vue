@@ -220,7 +220,7 @@ export default {
     },
     userDropdownItems() {
         const dashboardLinks = {
-            0: "ownerDashboard", //change back to adminDashboard after testing
+            0: "clientDashboard", //TODO: change back to adminDashboard after testing
             1: "supportDashboard",
             2: "ownerDashboard",
             3: "clientDashboard",

@@ -25,7 +25,7 @@
 
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "ClientDashboard",
   data: () => ({
@@ -33,7 +33,7 @@ export default {
     mini: true,
   }),
   computed: {
-    ...mapGetters(["userRentals", "user"]),
+    ...mapGetters(["user"]),
     isOwner() {
       return this.user.userType.intValue === 2;
     },
@@ -55,24 +55,21 @@ export default {
           icon: "message",
         },
         {
+            title: "Become an owner",
+            link: "upgradeAccount",
+            icon: "upgrade"
+        },
+        {
           title: "Contact support",
           link: "clientSupport",
           icon: "help",
         },
-        // {
-        //     title: "Rent your boat",
-        //     link: "NOT_IMPLEMENTED",
-        //     icon: "upgrade"
-        // }
       ];
     },
   },
   methods: {
-    ...mapActions(["fetchRentalsByUser"]),
   },
   mounted() {
-    this.fetchRentalsByUser(this.user.id);
-    //prevent child view from being overlapped by nav drawer
     this.$forceUpdate(); 
     this.isLoaded = true;
   },
