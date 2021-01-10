@@ -5,6 +5,7 @@ const state = {
     ownerBoats: [],
     currBoat: {},
     updateStatus: false,
+    pages: 1,
 }
 
 const getters = {
@@ -12,11 +13,12 @@ const getters = {
     currBoat: state => state.currBoat,
     ownerBoats: state => state.ownerBoats,
     hasUpdateSucceeded: state => state.updateStatus,
+    maxPages: state => state.pages,
 }
 
 const actions = {
-    async fetchBoats({ commit }) {
-        const boats = await Api.getAllBoats();
+    async fetchBoats({ commit }, { limit, page, searchParams = null }) {
+        const boats = await Api.getAllBoats(page, limit, searchParams);
         commit('setBoats', boats);
     },
     async fetchBoatById({ commit }, id) {
@@ -54,7 +56,10 @@ const actions = {
 }
 
 const mutations = {
-    setBoats: (state, boats) => (state.boats = boats),
+    setBoats: (state, boats) => {
+        state.boats = boats.data,
+        state.pages = boats.totalPages
+    },
     setCurrBoat: (state, currBoat) => (state.currBoat = currBoat),
     setOwnerBoats: (state, ownerBoats) => (state.ownerBoats = ownerBoats),
     updateOwnerBoat: (state, ownerBoats) => { state.ownerBoats = ownerBoats; state.updateStatus = true },
