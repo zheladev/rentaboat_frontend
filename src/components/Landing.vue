@@ -9,7 +9,7 @@
         <h4 class="subheading">Building bridges beween people.</h4>
       </v-col>
     </parallax-image>
-      <v-sheet class="blue lighten-5" :class="mdAndDown ? '' : 'sticky'" elevation="1">
+      <v-sheet class="blue lighten-5" :class="smAndDown ? '' : 'sticky'" elevation="1">
         <div class="text-center headline pt-4">
           Find the boat of your dreams
         </div>
@@ -193,8 +193,8 @@ export default {
     pages() {
       return Math.ceil(this.maxPages);
     },
-    mdAndDown() {
-      return this.$vuetify.breakpoint.mdAndDown;
+    smAndDown() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
     availablePorts() {
       return this.allPorts.map((p) => ({
