@@ -513,6 +513,7 @@ export default {
 }
 
 .datepicker-item:hover {
+  cursor: pointer;
   background-color: #28b0ed;
   transition: 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0s;
 }

@@ -1,7 +1,8 @@
 <template>
   <v-parallax
       dark
-      src="https://images.reference.com/amg-cms-reference-images/media/oceans-seas-surround-africa_ac189a10d9c855c0.jpg"
+      :src="img"
+      :height="height"
     >
       <v-row align="center" justify="center" class="parallax">
         <slot></slot>
@@ -11,7 +12,7 @@
 
 <script>
 export default {
-
+    props: ['img', 'height']
 }
 </script>
 

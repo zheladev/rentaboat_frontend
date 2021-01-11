@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="no-padding">
-    <parallax-image>
+    <parallax-image height="300" img="https://images.reference.com/amg-cms-reference-images/media/oceans-seas-surround-africa_ac189a10d9c855c0.jpg">
         <v-col class="text-center px-0" cols="12">
           <h1 class="display-1 font-weight-thin mb-4">Rentaboat</h1>
           <h4 class="subheading">Building bridges beween people.</h4>
