@@ -9,14 +9,14 @@
         <h4 class="subheading">Building bridges beween people.</h4>
       </v-col>
     </parallax-image>
-    <v-container>
-      <v-sheet class="blue lighten-5" elevation="1">
+      <v-sheet class="blue lighten-5" :class="mdAndDown ? '' : 'sticky'" elevation="1">
         <div class="text-center headline pt-4">
           Find the boat of your dreams
         </div>
         <v-form>
-          <v-row class="pa-2">
-            <v-col>
+          <v-container>
+            <v-row>
+            <v-col cols="12" md="6" lg="3">
               <v-sheet class="blue lighten-5">
                 <v-row no-gutters>
                   <v-col>
@@ -31,11 +31,11 @@
                 </v-row>
               </v-sheet>
             </v-col>
-            <v-col>
-              <v-sheet class="blue lighten-5">
+            <v-col cols="12" md="6" lg="3">
+              <v-sheet class="blue">
                 <v-row no-gutters>
                   <v-col>
-                    <v-sheet class="blue lighten-5">
+                    <v-sheet class="blue lighten-5 lighten-5 sticky">
                       <v-menu
                         ref="dateMenu"
                         v-model="dateMenu"
@@ -47,6 +47,7 @@
                         <template v-slot:activator="{ on }">
                           <v-row no-gutters>
                             <v-text-field
+                            class="pl-2 pr-4"
                               label="Rental duration"
                               prepend-icon="mdi-calendar"
                               readonly
@@ -67,19 +68,19 @@
                 </v-row>
               </v-sheet>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6" lg="3">
               <v-sheet class="blue lighten-5">
                 <v-row no-gutters>
-                  <v-col cols="5">
+                  <v-col cols="4" sm="2" md="3" lg="5">
                     <v-select
-                      class="pl-4 text-truncate"
+                      class="pl-2 text-truncate"
                       label="Filter"
                       prepend-icon="euro"
                       v-model="filter"
                       :items="filterTypes"
                     ></v-select>
                   </v-col>
-                  <v-col>
+                  <v-col cols="8" sm="10" md="9" lg="7" >
                     <v-text-field
                       class="pr-4"
                       v-model="price"
@@ -91,18 +92,22 @@
                 </v-row>
               </v-sheet>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="6" lg="3">
               <v-sheet class="blue lighten-5">
                 <v-row>
-                  <v-col cols="8" class="text-center">
+                  <v-col cols="2" md="0">
+
+                  </v-col>
+                  <v-col cols="7" class="">
                     <v-btn
                       class="green lighten-1"
                       block
+                      max-width="170"
                       @click="searchBoats"
                       >Find</v-btn
                     >
                   </v-col>
-                  <v-col class="">
+                  <v-col cols="2">
                     <v-btn
                       :class="isFiltered ? 'red--text' : ''"
                       :disabled="!isFiltered"
@@ -111,13 +116,16 @@
                       ><v-icon>delete</v-icon></v-btn
                     >
                   </v-col>
+                  <v-col cols="1">
+
+                  </v-col>
                 </v-row>
               </v-sheet>
             </v-col>
           </v-row>
+          </v-container>
         </v-form>
       </v-sheet>
-    </v-container>
     <v-container pa-0>
       <boat-grid :boats="allBoats" />
       <v-pagination
@@ -145,7 +153,7 @@ export default {
       new Date().toISOString().split("T")[0],
     ],
     formattedDate: "",
-    filter: null,
+    filter: '',
     price: null,
     dateMenu: false,
     page: 1,
@@ -153,7 +161,7 @@ export default {
     port: null,
     filterTypes: [
       {
-        text: " - ",
+        text: 'None',
         value: null,
       },
       {
@@ -185,6 +193,9 @@ export default {
     pages() {
       return Math.ceil(this.maxPages);
     },
+    mdAndDown() {
+      return this.$vuetify.breakpoint.mdAndDown;
+    },
     availablePorts() {
       return this.allPorts.map((p) => ({
         text: p.name,
@@ -209,7 +220,7 @@ export default {
       }
 
       if (price !== null) {
-        const filterOp = this.filter === null ? ":" : this.filter;
+        const filterOp = this.filter === null || this.filter === '' ? ":" : this.filter;
         searchParams = searchParams.concat(`pricePerDay${filterOp}${price},`);
       }
 
@@ -276,8 +287,9 @@ export default {
 </script>
 
 <style>
-.v-select__selection--comma {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
+.sticky {
+   position: sticky;
+   top: 0;
+   z-index: 2;
 }
 </style>
