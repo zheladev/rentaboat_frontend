@@ -20,7 +20,7 @@
         >
           <v-img
             src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
-            height="200"
+            max-height="300"
           />
           <v-card-title class="pb-0"><div class="text-truncate">{{ boat.name }}</div></v-card-title>
           <v-card-text>
