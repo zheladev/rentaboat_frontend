@@ -126,7 +126,6 @@
       </v-form>
     </v-sheet>
     <v-expansion-panels
-      v-bind="smAndDown"
       v-model="mobileSearchPanel"
       v-else
       class="sticky"
