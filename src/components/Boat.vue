@@ -15,7 +15,7 @@
                 no-gutters
                 fill-height
               >
-                <v-row>
+                <v-row v-if="mdAndUp">
                   <v-col cols="7" class="align-center justify-center">
                     <v-container>
                       <v-avatar
@@ -39,10 +39,11 @@
                   <v-spacer></v-spacer>
                   <v-col
                     cols="5"
-                    class="align-center justify-center text-center image-rating-container"
+                    class="align-center justify-center image-rating-container"
                   >
                     <v-container>
                       <v-rating
+                        class="text-center"
                         :value="avgRating"
                         color="yellow accent-4"
                         readonly
@@ -66,6 +67,187 @@
               {{ currBoat.description }}
             </div>
           </v-container>
+          <v-divider v-if="!mdAndUp"></v-divider>
+          <!-- TODO: center Start date and end date text -->
+          <v-container v-if="!mdAndUp">
+            <v-sheet class="ma-4" elevation="1">
+              <v-container py-0>
+                <v-row>
+                  <v-col class="pa-0">
+                    <v-menu
+                      ref="startDateMenu"
+                      v-model="startDateMenu"
+                      :close-on-content-click="false"
+                      :return-value.sync="startDate"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <div
+                          class="datepicker-item"
+                          v-on="on"
+                          :class="startDateMenu ? 'active' : ''"
+                        >
+                          <v-container pa-0>
+                            <v-row no-gutters>
+                              <v-col cols="9" class="py-0">
+                                <div
+                                  class="text-overline text-right text-truncate"
+                                >
+                                  start date
+                                </div>
+                              </v-col>
+                              <v-col cols="1" class="py-0">
+                                <v-icon
+                                  class="mx-1"
+                                  :class="
+                                    startDateMenu
+                                      ? 'datepicker-icon-active'
+                                      : ''
+                                  "
+                                  >arrow_drop_down</v-icon
+                                >
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col class="py-0">
+                                <div class="text-center">
+                                  {{ dmyDate(startDate) }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </div>
+                      </template>
+                      <v-date-picker
+                        class="start-date-picker"
+                        v-model="startDate"
+                        no-title
+                        scrollable
+                        :min="new Date().toISOString().split('T')[0]"
+                        @click:date="
+                          $refs.startDateMenu.save(startDate);
+                          startDate > endDate
+                            ? (endDate = startDate)
+                            : ''; /*I hate myself*/
+                        "
+                        :allowed-dates="
+                          allowedDates(datePickerFormattedNotAllowedDates)
+                        "
+                      >
+                        <div class="flex-grow-1"></div>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="startDateMenu = false"
+                          >Cancel</v-btn
+                        >
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.startDateMenu.save(startDate)"
+                          >OK</v-btn
+                        >
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col class="pa-0">
+                    <v-menu
+                      ref="endDateMenu"
+                      v-model="endDateMenu"
+                      :close-on-content-click="false"
+                      :return-value.sync="endDate"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <div
+                          class="datepicker-item"
+                          v-on="on"
+                          :class="endDateMenu ? 'active' : ''"
+                        >
+                          <v-container pa-0>
+                            <v-row no-gutters>
+                              <v-col cols="8" class="py-0">
+                                <div
+                                  class="text-overline text-right text-truncate"
+                                >
+                                  end date
+                                </div>
+                              </v-col>
+                              <v-col cols="1" class="py-0">
+                                <v-icon
+                                  class="mx-1"
+                                  :class="
+                                    endDateMenu ? 'datepicker-icon-active' : ''
+                                  "
+                                  >arrow_drop_down</v-icon
+                                >
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col class="py-0">
+                                <div class="text-center">
+                                  {{ dmyDate(endDate) }}
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </div>
+                      </template>
+                      <v-date-picker
+                        v-model="endDate"
+                        no-title
+                        scrollable
+                        @click:date="$refs.endDateMenu.save(endDate)"
+                        :allowed-dates="
+                          allowedDates(datePickerFormattedNotAllowedDates)
+                        "
+                        :min="startDate"
+                      >
+                        <div class="flex-grow-1"></div>
+                        <v-btn text color="primary" @click="endDateMenu = false"
+                          >Cancel</v-btn
+                        >
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.endDateMenu.save(endDate)"
+                          >OK</v-btn
+                        >
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-divider></v-divider>
+              <v-container py-0>
+                <v-row>
+                  <v-col>
+                    <div class="headline text-center">
+                      Rent now for {{ totalPrice.toFixed(2) }} €
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-sheet>
+            <v-col cols="12 text-center pt-0 pb-6">
+              <v-btn
+                class="light-blue darken-2 grey--text text--lighten-4"
+                link
+                :to="{
+                  name: 'rentalPayment',
+                  params: { boatId: id },
+                  query: { startDate: startDate, endDate: endDate },
+                }"
+                >Proceed with rental</v-btn
+              >
+            </v-col>
+          </v-container>
+
           <v-divider></v-divider>
           <v-container class="boat-characteristics">
             <div class="text-overline">Characteristics</div>
@@ -79,8 +261,6 @@
             </v-simple-table>
           </v-container>
           <v-divider></v-divider>
-
-          <!-- MOBILE RENTAL FORM -->
 
           <v-container class="boat-ratings">
             <div class="text-overline">Ratings</div>
@@ -143,6 +323,14 @@
                   :key="`${i}-divider`"
                 ></v-divider>
               </template>
+              <div
+                v-if="
+                  currBoat.comments === undefined ||
+                  currBoat.comments.length === 0
+                "
+              >
+                No comments found.
+              </div>
             </v-list>
           </v-container>
         </v-sheet>
@@ -151,7 +339,7 @@
 
       <!-- Date picker web -->
 
-      <v-col class="hidden-sm-and-down">
+      <v-col v-if="mdAndUp">
         <v-container py-0 class="grey lighten-4 fill-height align-start">
           <v-row>
             <v-col cols="12">
@@ -434,6 +622,9 @@ export default {
   },
   computed: {
     ...mapGetters(["currBoat", "boatRentals"]),
+    mdAndUp() {
+      return this.$vuetify.breakpoint.mdAndUp;
+    },
     totalPrice() {
       const _MS_PER_DAY = 1000 * 60 * 60 * 24;
       const basePrice = this.currBoat.pricePerDay;
