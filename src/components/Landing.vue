@@ -126,7 +126,6 @@
       </v-form>
     </v-sheet>
     <v-expansion-panels
-      v-bind="smAndDown"
       v-model="mobileSearchPanel"
       v-else
       class="sticky"
@@ -139,9 +138,6 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content class="blue lighten-5">
           <v-sheet class="blue lighten-5">
-            <div class="text-center headline pt-4">
-              Find the boat of your dreams
-            </div>
             <v-form>
               <v-container>
                 <v-row>
