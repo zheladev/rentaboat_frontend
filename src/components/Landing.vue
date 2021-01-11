@@ -78,7 +78,6 @@
                       v-model="filter"
                       :items="filterTypes"
                     ></v-select>
-                    {{ filter }}
                   </v-col>
                   <v-col>
                     <v-text-field
@@ -95,12 +94,21 @@
             <v-col>
               <v-sheet class="blue lighten-5">
                 <v-row>
-                  <v-col class="text-center">
+                  <v-col cols="8" class="text-center">
                     <v-btn
                       class="green lighten-1"
-                      width="200"
+                      block
                       @click="searchBoats"
                       >Find</v-btn
+                    >
+                  </v-col>
+                  <v-col class="">
+                    <v-btn
+                      :class="isFiltered ? 'red--text' : ''"
+                      :disabled="!isFiltered"
+                      icon
+                      @click="deleteFilter"
+                      ><v-icon>delete</v-icon></v-btn
                     >
                   </v-col>
                 </v-row>
@@ -202,7 +210,7 @@ export default {
 
       if (price !== null) {
         const filterOp = this.filter === null ? ":" : this.filter;
-        searchParams = searchParams.concat(`price${filterOp}${price}`);
+        searchParams = searchParams.concat(`pricePerDay${filterOp}${price},`);
       }
 
       searchParams = searchParams = searchParams.concat(
@@ -210,6 +218,15 @@ export default {
       );
 
       return searchParams !== "" ? searchParams : null;
+    },
+    async deleteFilter() {
+      await this.fetchBoats({
+        page: 0,
+        limit: this.limit,
+      });
+
+      this.page = 1;
+      this.isFiltered = false;
     },
     async searchBoats() {
       await this.fetchBoats({
