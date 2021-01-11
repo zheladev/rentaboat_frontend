@@ -15,9 +15,8 @@
                 no-gutters
                 fill-height
               >
-                <!-- fix for smaller views -->
                 <v-row>
-                  <v-col class="align-center justify-center">
+                  <v-col cols="7" class="align-center justify-center">
                     <v-container>
                       <v-avatar
                         class="white--text mx-2"
@@ -39,6 +38,7 @@
                   </v-col>
                   <v-spacer></v-spacer>
                   <v-col
+                    cols="5"
                     class="align-center justify-center text-center image-rating-container"
                   >
                     <v-container>
@@ -513,6 +513,7 @@ export default {
 }
 
 .datepicker-item:hover {
+  cursor: pointer;
   background-color: #28b0ed;
   transition: 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0s;
 }

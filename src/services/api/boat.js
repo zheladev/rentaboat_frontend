@@ -3,8 +3,10 @@ import authHeader from '../auth-header'
 
 const API_URL = `${process.env.VUE_APP_API_URL}boats/` //move to env
 
-const getAllBoats = async () => {
-    const response = await Axios.get(API_URL, { headers: await authHeader() });
+const getAllBoats = async (page = 0, limit = 15, searchParams = null) => {
+    const url = `${API_URL}?page=${page}&limit=${limit}`;
+    const searchUrl = searchParams !== null ? `&search=${searchParams}` : '';
+    const response = await Axios.get(url.concat(searchUrl), { headers: await authHeader() });
     return response.data;
 }
 
