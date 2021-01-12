@@ -134,7 +134,7 @@
     >
       <v-expansion-panel>
         <v-expansion-panel-header class="blue lighten-4" :ripple="true">
-          <div>Search {{ mobileSearchPanel }}</div>
+          <div>Search</div>
         </v-expansion-panel-header>
         <v-expansion-panel-content class="blue lighten-5">
           <v-sheet class="blue lighten-5">
