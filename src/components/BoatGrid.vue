@@ -18,11 +18,12 @@
           link
           :to="{ name: 'boat', params: { id: boat.id } }"
         >
-          <v-img
-            src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
-            max-height="300"
-          />
-          <v-card-title class="pb-0"><div class="text-truncate">{{ boat.name }}</div></v-card-title>
+          <v-card min-height="300" max-height="300">
+              <v-img :src="getFilePath(boat.path)" min-height="300" max-height="300" />
+          </v-card>
+          <v-card-title class="pb-0"
+            ><div class="text-truncate">{{ boat.name }}</div></v-card-title
+          >
           <v-card-text>
             <v-row align="center" class="mx-0">
               <v-rating
@@ -34,39 +35,49 @@
                 size="14"
               ></v-rating>
 
-              <div class="grey--text ml-4">{{boat.ratings.length > 0 ? `${avgRating(boat.ratings)} (${boat.ratings.length})` : `No ratings.`}}</div>
+              <div class="grey--text ml-4">
+                {{
+                  boat.ratings.length > 0
+                    ? `${avgRating(boat.ratings)} (${boat.ratings.length})`
+                    : `No ratings.`
+                }}
+              </div>
             </v-row>
             <v-row>
-                <v-col class="pl-2 pb-0">
-                    <v-icon>location_on</v-icon> {{boat.port.name}}
-                </v-col>
-                <v-col class="pl-2 pb-0">
-                    <div class="black--text text-right">{{boat.pricePerDay}} €/day</div>
-                </v-col>
+              <v-col class="pl-2 pb-0">
+                <v-icon>location_on</v-icon> {{ boat.port.name }}
+              </v-col>
+              <v-col class="pl-2 pb-0">
+                <div class="black--text text-right">
+                  {{ boat.pricePerDay }} €/day
+                </div>
+              </v-col>
             </v-row>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-text>
-              <!-- TODO: Add icon name on hover (person -> passenger capacity etc) --> 
-              <v-row class="py-0">
-                  <v-col class="py-0">
-                      <div><v-icon>person</v-icon> {{boat.passengerCapacity}}</div>
-                  </v-col>
-                  <v-col class="py-0">
-                      <div><v-icon>meeting_room</v-icon> {{boat.numberOfCabins}}</div>
-                  </v-col>
-                  <v-col class="py-0">
-                      <div><v-icon>wc</v-icon> {{boat.numberOfBathrooms}}</div>
-                  </v-col>
-              </v-row>
+            <!-- TODO: Add icon name on hover (person -> passenger capacity etc) -->
+            <v-row class="py-0">
+              <v-col class="py-0">
+                <div><v-icon>person</v-icon> {{ boat.passengerCapacity }}</div>
+              </v-col>
+              <v-col class="py-0">
+                <div>
+                  <v-icon>meeting_room</v-icon> {{ boat.numberOfCabins }}
+                </div>
+              </v-col>
+              <v-col class="py-0">
+                <div><v-icon>wc</v-icon> {{ boat.numberOfBathrooms }}</div>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-text>
-              <v-row>
-                  <v-col>
-                      {{boat.description}}
-                  </v-col>
-              </v-row>
+            <v-row>
+              <v-col>
+                {{ boat.description }}
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
         <!-- 
@@ -83,14 +94,19 @@
 </template>
 
 <script>
+import { fileRetrievalMixin } from "@/mixins/fileRetrievalMixin";
 export default {
+  mixins: [fileRetrievalMixin],
   name: "BoatGrid",
   props: ["boats"],
   methods: {
-      avgRating(ratings) {
-          return ratings.length > 0 ? ratings.map(r => r.rating).reduce((acc, curr) => acc+curr, 0)/ratings.length : 0;
-      }
-  }
+    avgRating(ratings) {
+      return ratings.length > 0
+        ? ratings.map((r) => r.rating).reduce((acc, curr) => acc + curr, 0) /
+            ratings.length
+        : 0;
+    },
+  },
 };
 </script>
 

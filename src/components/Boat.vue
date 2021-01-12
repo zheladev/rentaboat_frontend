@@ -6,7 +6,7 @@
           <v-container class="boat-header">
             <v-img
               class="boat-img"
-              src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
+              :src="getFilePath(currBoat.path)"
               :aspect-ratio="16 / 9"
             >
               <v-container
@@ -550,7 +550,9 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { fileRetrievalMixin } from "@/mixins/fileRetrievalMixin";
 export default {
+  mixins: [fileRetrievalMixin],
   name: "Boat",
   data: () => ({
     datePickerFormattedNotAllowedDates: [],
