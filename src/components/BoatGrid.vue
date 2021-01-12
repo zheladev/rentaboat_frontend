@@ -9,8 +9,6 @@
         md="6"
         lg="4"
       >
-        <!-- TODO: use boat image -->
-
         <v-card
           elevation="1"
           outlined
