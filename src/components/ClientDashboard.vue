@@ -1,6 +1,13 @@
 <template>
   <v-container fluid pa-0>
-    <v-navigation-drawer class="light-blue lighten-5" app clipped :mini-variant.sync="mini" permanent expand-on-hover>
+    <v-navigation-drawer
+      class="light-blue lighten-5"
+      app
+      clipped
+      :mini-variant.sync="mini"
+      permanent
+      expand-on-hover
+    >
       <v-list nav dense>
         <v-list-item
           v-for="item in menuItems"
@@ -40,6 +47,11 @@ export default {
     menuItems() {
       return [
         {
+          title: "Profile",
+          name: "ownerOverview",
+          icon: "person",
+        },
+        {
           title: "View upcoming rentals",
           link: "upcomingRentals",
           icon: "today",
@@ -55,9 +67,9 @@ export default {
           icon: "message",
         },
         {
-            title: "Become an owner",
-            link: "upgradeAccount",
-            icon: "upgrade"
+          title: "Become an owner",
+          link: "upgradeAccount",
+          icon: "upgrade",
         },
         {
           title: "Contact support",
@@ -67,10 +79,9 @@ export default {
       ];
     },
   },
-  methods: {
-  },
+  methods: {},
   mounted() {
-    this.$forceUpdate(); 
+    this.$forceUpdate();
     this.isLoaded = true;
   },
 };

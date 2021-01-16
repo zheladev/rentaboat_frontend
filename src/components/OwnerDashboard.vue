@@ -1,13 +1,20 @@
 <template>
   <v-container fluid pa-0>
-    <v-navigation-drawer  class="light-blue lighten-5" app clipped :mini-variant.sync="mini" permanent expand-on-hover>
+    <v-navigation-drawer
+      class="light-blue lighten-5"
+      app
+      clipped
+      :mini-variant.sync="mini"
+      permanent
+      expand-on-hover
+    >
       <v-list nav dense>
         <v-list-item
           v-for="item in menuItems"
           :key="item.title"
           link
           exact
-          :to="{ name: item.link }"
+          :to="item.path ? { path: item.path } : { name: item.link }"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -37,19 +44,25 @@ export default {
     menuItems() {
       return [
         {
+          title: "Profile",
+          link: "ownerDashboard",
+          path: "/ownerDashboard",
+          icon: "person",
+        },
+        {
           title: "Your boats",
           link: "ownerBoats",
           icon: "directions_boat",
         },
         {
-            title: "View upcoming rentals",
-            link: "ownerUpcomingRentals",
-            icon: "today"
+          title: "View upcoming rentals",
+          link: "ownerUpcomingRentals",
+          icon: "today",
         },
         {
-            title: "View past rentals",
-            link: "ownerRentalHistory",
-            icon: "restore"
+          title: "View past rentals",
+          link: "ownerRentalHistory",
+          icon: "restore",
         },
         {
           title: "Messages",
@@ -69,7 +82,7 @@ export default {
   },
   mounted() {
     //prevent child view from being overlapped by nav drawer
-    this.$forceUpdate(); 
+    this.$forceUpdate();
     this.isLoaded = true;
   },
 };

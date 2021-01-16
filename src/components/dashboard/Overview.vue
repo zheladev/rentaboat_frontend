@@ -5,7 +5,13 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="4">
-            <v-img cols="12" sm="8" height="200" width="200" :src="getFilePath(user.path)">
+            <v-img
+              cols="12"
+              sm="8"
+              height="200"
+              width="200"
+              :src="getFilePath(user.path)"
+            >
             </v-img>
           </v-col>
           <v-col>
@@ -27,24 +33,31 @@
           </v-col>
         </v-row>
 
-
         <v-row>
           <v-col>
-            <v-row> Actions </v-row>
+            <v-row>
+              <v-col>
+                <div class="text-h5 text-center">Actions</div>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col align="center" v-for="(item, i) in menuItems" :key="i">
-                <v-sheet class="grey" height="100" width="100">
+                <v-sheet height="100" width="100">
                   <v-row
                     class="fill-height mx-0"
                     align="center"
                     justify="center"
                   >
-                  <v-btn size="54" icon text link :to="{ name: item.link }" exact>
-                      <v-icon size="54">{{
-                      item.icon
-                    }}</v-icon>
-                  </v-btn>
-                    
+                    <v-btn
+                      size="54"
+                      icon
+                      text
+                      link
+                      :to="{ name: item.link }"
+                      exact
+                    >
+                      <v-icon size="54">{{ item.icon }}</v-icon>
+                    </v-btn>
                   </v-row>
                 </v-sheet>
               </v-col>
@@ -128,10 +141,10 @@ export default {
         case 1:
           break;
         case 2:
-          menuItems = this.userMenuItems;
+          menuItems = this.ownerMenuItems;
           break;
         case 3:
-          menuItems = this.ownerMenuItems;
+          menuItems = this.userMenuItems;
           break;
         default:
           break;

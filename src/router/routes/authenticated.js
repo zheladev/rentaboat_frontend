@@ -26,7 +26,7 @@ const routes = [
         },
         children: [
             {
-                path: '',
+                path: 'profile',
                 name: 'ownerOverview',
                 component: Overview
             },
@@ -69,7 +69,7 @@ const routes = [
         },
         children: [
             {
-                path: '',
+                path: 'profile',
                 name: 'overview',
                 component: Overview
             },
