@@ -42,6 +42,16 @@ export default {
           icon: "directions_boat",
         },
         {
+            title: "View upcoming rentals",
+            link: "ownerUpcomingRentals",
+            icon: "today"
+        },
+        {
+            title: "View past rentals",
+            link: "ownerRentalHistory",
+            icon: "restore"
+        },
+        {
           title: "Messages",
           link: "ownerMessages",
           icon: "message",

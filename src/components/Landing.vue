@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-0">
     <parallax-image
-      height="300"
+      :height="mdAndDown ? 150 : 300"
       img="https://images.reference.com/amg-cms-reference-images/media/oceans-seas-surround-africa_ac189a10d9c855c0.jpg"
     >
       <v-col class="text-center px-0" cols="12">

@@ -1,5 +1,5 @@
 import AuthApi from '../../services/api/auth'
-import UserApi from '../../services/api/auth'
+import UserApi from '../../services/api/user'
 
 const user = JSON.parse(localStorage.getItem('user'));
 /**
@@ -54,9 +54,10 @@ const actions = {
             commit('registrationFailure');
         }
     },
-    async promoteUserToOwner({ commit }, id) {
+    async promoteToOwner({ commit }, id) {
+        console.log('hi')
         const promotedUser = await UserApi.promoteToOwner(id);
-        commit('promoteUserToOwner', promotedUser);
+        commit('promoteToOwner', promotedUser);
     }
 }
 
@@ -83,7 +84,7 @@ const mutations = {
     registrationFailure(state) {
         state.successfulRegistration = false;
     },
-    promoteUserToOwner(state, user) {
+    promoteToOwner(state, user) {
         state.user = user;
     }
 }

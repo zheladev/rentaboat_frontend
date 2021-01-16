@@ -1,37 +1,49 @@
 <template>
   <v-container fluid pa-0>
-      <!--TODO: add styling -->
+    <!--TODO: add styling -->
     <v-container class="content-section-container">
-      <div class="headline pb-5">Upgrade account</div>
-
-      <div class="text-body-1">Become part of Rentaboat's family. Rent your boat now.</div>
+      <v-row>
+        <v-col>
+          <div class="headline pb-5">Upgrade account</div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <div class="text-body-1">
+            Become part of Rentaboat's family. Rent your boat now.
+          </div>
+        </v-col>
+      </v-row>
     </v-container>
     <v-container>
-        <v-btn @click="upgradeAccount">
-            Rent your boat
-        </v-btn>
+      <v-row>
+        <v-col class="text-center">
+          <v-btn color="green lighten-2" @click="upgradeAccount"> Start renting your boat </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </v-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
-    name: 'UpgradeAccount',
-    computed: {
-        ...mapGetters(["billingInformationArray", "user"])
+  name: "UpgradeAccount",
+  computed: {
+    ...mapGetters(["billingInformationArray", "user"]),
+  },
+  methods: {
+    ...mapActions(["fetchBillingInformation", "promoteToOwner", "logout"]),
+    async upgradeAccount() {
+        console.log(this.$store)
+      await this.promoteToOwner(this.user.id);
+      this.$router.push("/ownerDashboard");
     },
-    methods: {
-        ...mapActions(["fetchBillingInformation", "promoteToOwner"]),
-        async upgradeAccount() {
-            await this.promoteToOwner(this.user.id);
-            this.$router.push('/ownerDashboard');
-        }
-    },
-    async mounted() {
-        await this.fetchBillingInformation(this.user.id);
-    }
-}
+  },
+  async mounted() {
+    await this.fetchBillingInformation(this.user.id);
+  },
+};
 </script>
 
 <style>

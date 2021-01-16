@@ -20,7 +20,7 @@ const getBillingInformationByUserId = async (userId) => {
 }
 
 const promoteToOwner = async (userId) => {
-    const response = await Axios.patch(`${API_URL}${userId}/promote`, { headers: await authHeader() });
+    const response = await Axios.patch(`${API_URL}${userId}/promote`, null, { headers: await authHeader() });
     return response.data;
 }
 

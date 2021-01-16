@@ -47,14 +47,8 @@
           ref="userTooltipItem"
           :class="isWebUserMenuActive ? 'active' : ''"
         >
-          <v-avatar
-            class="white--text mx-2 text-center"
-            color="purple"
-            size="42"
-          >
-            <span
-              >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
-            >
+          <v-avatar dark size="42" color="purple lighten-3">
+            <img :src="getFilePath(user.path)" alt="" />
           </v-avatar>
           <v-icon
             class="mx-1"
@@ -120,9 +114,8 @@
             color="purple"
             size="42"
           >
-            <span v-if="isLoggedIn"
-              >{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span
-            >
+            <img v-if="isLoggedIn" :src="getFilePath(user.path)" alt="" />
+
             <span light v-else
               ><v-icon class="white--text">mdi-account</v-icon></span
             >
@@ -194,8 +187,10 @@
 </template>
 
 <script>
+import { fileRetrievalMixin } from "@/mixins/fileRetrievalMixin";
 import { mapGetters } from "vuex";
 export default {
+  mixins: [fileRetrievalMixin],
   data: () => ({
     appTitle: "Rentaboat",
     isDrawerOpen: false,
@@ -224,7 +219,7 @@ export default {
     },
     userDropdownItems() {
       const dashboardLinks = {
-        0: "clientDashboard", //TODO: change back to adminDashboard after testing
+        0: "adminDashboard", //TODO: change back to adminDashboard after testing
         1: "supportDashboard",
         2: "ownerDashboard",
         3: "clientDashboard",

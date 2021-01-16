@@ -47,7 +47,7 @@ export default {
         {
           title: "View past rentals",
           link: "rentalHistory",
-          icon: "directions_boat",
+          icon: "restore",
         },
         {
           title: "Messages",

@@ -40,6 +40,16 @@ const routes = [
                 name: 'ownerSupport',
                 component: Support,
             },
+            {
+                path: 'upcomingRentals',
+                name: 'ownerUpcomingRentals',
+                component: UpcomingRentals,
+            },
+            {
+                path: 'rentalHistory',
+                name: 'ownerRentalHistory',
+                component: PastRentals,
+            },
         ]
     },
     {

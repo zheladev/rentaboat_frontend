@@ -269,7 +269,7 @@
                 <v-list-item :key="i">
                   <v-list-item-avatar>
                     <v-img
-                      src="https://i1.sndcdn.com/avatars-000411292317-dt2f28-t500x500.jpg"
+                      :src="getFilePath(rating.user.path)"
                     ></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>

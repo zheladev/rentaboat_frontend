@@ -16,8 +16,8 @@
           link
           :to="{ name: 'boat', params: { id: boat.id } }"
         >
-          <v-card min-height="300" max-height="300">
-              <v-img :src="getFilePath(boat.path)" min-height="300" max-height="300" />
+          <v-card :min-height="mdAndDown ? 150 : 300" :max-height="mdAndDown ? 150 : 300">
+              <v-img :src="getFilePath(boat.path)" :min-height="mdAndDown ? 150 : 300" :max-height="mdAndDown ? 150 : 300" />
           </v-card>
           <v-card-title class="pb-0"
             ><div class="text-truncate">{{ boat.name }}</div></v-card-title
@@ -103,6 +103,9 @@ export default {
         ? ratings.map((r) => r.rating).reduce((acc, curr) => acc + curr, 0) /
             ratings.length
         : 0;
+    },
+    mdAndDown() {
+      return this.$vuetify.breakpoint.mdAndDown;
     },
   },
 };
