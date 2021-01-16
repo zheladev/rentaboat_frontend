@@ -7,7 +7,7 @@
       </div>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="4" :align="'center'">
             <v-img
               cols="12"
               sm="8"
@@ -20,14 +20,14 @@
           <v-col>
             <v-row>
               <v-col class="pb-0">
-                <div class="display-1 font-weight-light capitalize">
+                <div class="display-1 font-weight-light capitalize" :class="xs ? { 'text-center': true } : {}">
                   {{ user.firstName }} {{ user.lastName }}
                 </div>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <div class="text-subtitle-1">
+                <div class="text-subtitle-1" :class="xs ? { 'text-center': true } : {}">
                   <span class="email">{{ user.email }}</span> -
                   <span class="capitalize grey--text text--darken-1">{{
                     user.userType.name
@@ -157,6 +157,9 @@ export default {
           break;
       }
       return menuItems;
+    },
+    xs() {
+      return this.$vuetify.breakpoint.xs;
     },
   },
   methods: {},

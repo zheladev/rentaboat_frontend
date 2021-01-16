@@ -41,7 +41,7 @@
         <!-- Add ripple effect -->
         <div
           v-else
-          class="user-toolbar-item align-center justify-center"
+          class="user-toolbar-item align-center justify-center pl-2"
           block
           v-on:click="toggleWebUserMenu"
           ref="userTooltipItem"
