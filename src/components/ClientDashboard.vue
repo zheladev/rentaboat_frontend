@@ -14,7 +14,7 @@
           :key="item.title"
           link
           exact
-          :to="{ name: item.link }"
+          :to="item.path ? { path: item.path } : { name: item.link }"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -49,6 +49,7 @@ export default {
         {
           title: "Profile",
           name: "ownerOverview",
+          path: "/clientDashboard",
           icon: "person",
         },
         {
