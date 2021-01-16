@@ -22,15 +22,7 @@ const actions = {
         commit('setBoats', boats);
     },
     async fetchBoatById({ commit }, id) {
-        let boat = {};
-        const inMemBoatArr = state.boats.filter(b => b.id === id);
-        //TODO: fetch data again if X time has passed
-        if (inMemBoatArr.length > 0) {
-            boat = inMemBoatArr[0];
-        } else {
-            const fetchedBoat = await Api.getBoatById(id);
-            boat = fetchedBoat;
-        }
+        const boat = await Api.getBoatById(id);
         commit('setCurrBoat', boat);
     },
     async fetchBoatsByOwnerId({ commit }, ownerId) {
