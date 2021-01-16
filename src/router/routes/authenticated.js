@@ -2,7 +2,7 @@ import ClientDashboard from '@/views/ClientDashboardPage.vue';
 import Settings from '@/views/SettingsPage.vue';
 import RentalPayment from '@/views/RentalPaymentPage.vue';
 import OwnerDashboard from '@/views/OwnerDashboardPage.vue';
-import Overview from '@/components/dashboard/client/Overview.vue';
+import Overview from '@/components/dashboard/Overview.vue';
 import General from '@/components/settings/General.vue';
 import Account from '@/components/settings/Account.vue';
 import PastRentals from '@/components/dashboard/client/PastRentals.vue';
@@ -19,12 +19,17 @@ const routes = [
         name: 'ownerDashboard',
         component: OwnerDashboard,
         redirect: {
-            name: 'ownerBoats'
+            name: 'ownerOverview'
         },
         meta: {
             authLevel: AUTH_LEVELS.OWNER
         },
         children: [
+            {
+                path: '',
+                name: 'ownerOverview',
+                component: Overview
+            },
             {
                 path: 'boats',
                 name: 'ownerBoats',
