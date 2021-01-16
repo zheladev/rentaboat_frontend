@@ -38,7 +38,6 @@
             <v-icon>login</v-icon></v-btn
           >
         </v-toolbar-items>
-        <!-- Add ripple effect -->
         <div
           v-else
           class="user-toolbar-item align-center justify-center pl-2"
