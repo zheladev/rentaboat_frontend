@@ -57,7 +57,7 @@
           >
           <v-menu
             offset-y
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             v-model="isWebUserMenuActive"
             :position-x="x"
             :position-y="y"

@@ -251,10 +251,7 @@
             </v-row>
             <v-row>
               <v-col cols="5"
-                ><v-img
-                  max-height="200"
-                  max-width="300"
-                  src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
+                ><v-img max-height="200" max-width="300" :src="filePath"
               /></v-col>
               <v-col>
                 <v-text-field
@@ -421,12 +418,13 @@
 </template>
 
 <script>
+import { fileRetrievalMixin } from "@/mixins/fileRetrievalMixin";
 import { mapActions, mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, decimal, numeric, alphaNum } from "vuelidate/lib/validators";
 //import * as easings from "vuetify/es5/services/goto/easing-patterns";
 export default {
-  mixins: [validationMixin],
+  mixins: [validationMixin, fileRetrievalMixin],
   name: "OwnerBoats",
   data: () => ({
     createBoatDialogLoading: false,
@@ -469,6 +467,11 @@ export default {
   },
   computed: {
     ...mapGetters(["ownerBoats", "user", "allPorts"]),
+    filePath() {
+      return this.activeBoatObj.path
+        ? this.getFilePath(this.activeBoatObj.path)
+        : "";
+    },
     availablePorts() {
       //TODO: filter ports or whatever I want to do with them
       return this.allPorts.map((p) => ({
@@ -590,6 +593,7 @@ export default {
         numberOfCabins: this.ownerBoats[idx].numberOfCabins,
         numberOfBathrooms: this.ownerBoats[idx].numberOfBathrooms,
         port: this.ownerBoats[idx].port,
+        path: this.ownerBoats[idx].path,
       };
       this.activeBoatRentals = this.ownerBoats[idx].rentals;
       this.selectedRental = {};
@@ -610,10 +614,10 @@ export default {
       this.createBoatDialogLoading = true;
       this.$v.createBoatData.$touch();
       if (this.$v.createBoatData.$invalid) {
-          //invalid data
+        //invalid data
       } else {
         //valid data
-        console.log(this.createBoatData)
+        console.log(this.createBoatData);
         await this.createBoat(this.createBoatData);
         this.createBoatDialogLoading = false;
         this.dialog = false;

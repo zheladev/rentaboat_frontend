@@ -42,8 +42,8 @@
             >
               <v-card color="grey lighten-4" max-width="360px" flat>
                 <!-- TODO: use boat image -->
-                <v-img
-                  src="https://www.lanoria.net/368-large_default/cherokee-30.jpg"
+                <v-img 
+                  :src="filePath"
                   height="200px"
                 ></v-img>
                 <v-card-title>
@@ -62,7 +62,7 @@
                   }}
                 </v-card-subtitle>
                 <v-card-subtitle>
-                    <v-icon class="location-icon">location_on</v-icon>
+                  <v-icon class="location-icon">location_on</v-icon>
                   {{
                     selectedEvent.rental !== undefined
                       ? selectedEvent.rental.boat.port.name
@@ -90,8 +90,10 @@
 </template>
 
 <script>
+import { fileRetrievalMixin } from "@/mixins/fileRetrievalMixin";
 import { mapActions, mapGetters } from "vuex";
 export default {
+  mixins: [fileRetrievalMixin],
   name: "UpcomingRentals",
   data: () => ({
     focus: "",
@@ -105,6 +107,11 @@ export default {
   }),
   computed: {
     ...mapGetters(["userRentals", "user"]),
+    filePath() {
+      return this.selectedEvent.rental
+        ? this.getFilePath(this.selectedEvent.rental.boat.path)
+        : "";
+    },
   },
   methods: {
     ...mapActions(["fetchRentalsByUser"]),
@@ -162,8 +169,6 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
-        console.log(event)
-        console.log(nativeEvent.target)
         this.x = nativeEvent.clientX;
         this.y = nativeEvent.clientY;
         setTimeout(() => {
@@ -199,6 +204,6 @@ export default {
   padding: 2em 2em 1em 2em;
 }
 .location-icon {
-    vertical-align: -7px;
+  vertical-align: -7px;
 }
 </style>

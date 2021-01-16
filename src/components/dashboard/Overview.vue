@@ -1,7 +1,7 @@
 <template>
   <v-container fluid pa-0>
     <v-container class="content-section-container">
-      <div class="headline">{{ user.username }}'s User Panel</div>
+      <div class="headline"><span class="capitalize">{{ user.username }}</span>'s User Panel</div>
       <v-container>
         <v-row>
           <v-col cols="12" sm="4">
@@ -17,7 +17,7 @@
           <v-col>
             <v-row>
               <v-col class="pb-0">
-                <div class="display-2">
+                <div class="display-1 font-weight-light capitalize">
                   {{ user.firstName }} {{ user.lastName }}
                 </div>
               </v-col>
@@ -26,7 +26,7 @@
               <v-col>
                 <div class="text-subtitle-1">
                   <span class="email">{{ user.email }}</span> -
-                  {{ user.userType.name }}
+                  <span class="capitalize grey--text text--darken-1">{{ user.userType.name }}</span>
                 </div>
               </v-col>
             </v-row>
@@ -162,5 +162,8 @@ export default {
 }
 .email {
   color: rgb(6, 69, 173);
+}
+.capitalize {
+  text-transform: capitalize;
 }
 </style>
