@@ -1,7 +1,10 @@
 <template>
   <v-container fluid pa-0>
     <v-container class="content-section-container">
-      <div class="headline"><span class="capitalize">{{ user.username }}</span>'s User Panel</div>
+      <div class="headline">
+        <span class="capitalize">{{ user.username }}</span
+        >'s User Panel
+      </div>
       <v-container>
         <v-row>
           <v-col cols="12" sm="4">
@@ -26,7 +29,9 @@
               <v-col>
                 <div class="text-subtitle-1">
                   <span class="email">{{ user.email }}</span> -
-                  <span class="capitalize grey--text text--darken-1">{{ user.userType.name }}</span>
+                  <span class="capitalize grey--text text--darken-1">{{
+                    user.userType.name
+                  }}</span>
                 </div>
               </v-col>
             </v-row>
@@ -35,33 +40,35 @@
 
         <v-row>
           <v-col>
-            <v-row>
-              <v-col>
-                <div class="text-h5 text-center">Actions</div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col align="center" v-for="(item, i) in menuItems" :key="i">
-                <v-sheet height="100" width="100">
-                  <v-row
-                    class="fill-height mx-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-btn
-                      size="54"
-                      icon
-                      text
-                      link
-                      :to="{ name: item.link }"
-                      exact
+            <v-sheet elevation="1" class="grey lighten-4">
+              <v-row>
+                <v-col>
+                  <div class="text-h5 text-center">Actions</div>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col align="center" v-for="(item, i) in menuItems" :key="i">
+                  <v-sheet height="100" width="100" class="grey lighten-4">
+                    <v-row
+                      class="fill-height mx-0"
+                      align="center"
+                      justify="center"
                     >
-                      <v-icon size="54">{{ item.icon }}</v-icon>
-                    </v-btn>
-                  </v-row>
-                </v-sheet>
-              </v-col>
-            </v-row>
+                      <v-btn
+                        size="54"
+                        icon
+                        text
+                        link
+                        :to="{ name: item.link }"
+                        exact
+                      >
+                        <v-icon size="54">{{ item.icon }}</v-icon>
+                      </v-btn>
+                    </v-row>
+                  </v-sheet>
+                </v-col>
+              </v-row>
+            </v-sheet>
           </v-col>
         </v-row>
       </v-container>
