@@ -122,7 +122,7 @@
                                   required
                                   @input="$v.createBoatData.boatType.$touch()"
                                   @blur="$v.createBoatData.boatType.$touch()"
-                                ></v-text-field>
+                                ></v-select>
                               </v-col>
                               <v-col>
                                 <v-text-field
