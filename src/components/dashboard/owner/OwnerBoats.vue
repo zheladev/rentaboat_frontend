@@ -114,11 +114,11 @@
                             </v-row>
                             <v-row>
                               <v-col>
-                                <!-- TODO: fetch boat types and use dropdown -->
-                                <v-text-field
+                                <v-select
                                   v-model="createBoatData.boatType"
                                   :error-messages="boatTypeErrors"
                                   label="Boat type"
+                                  :items="boatTypes"
                                   required
                                   @input="$v.createBoatData.boatType.$touch()"
                                   @blur="$v.createBoatData.boatType.$touch()"
@@ -472,15 +472,25 @@ export default {
         ? this.getFilePath(this.activeBoatObj.path)
         : "";
     },
+    boatTypes() {
+        //TODO: fetch from backend
+        return [
+            "yatch",
+            "dinghy",
+            "powerCat",
+            "sailboat",
+            "catamaran",
+            "schooner",
+            "motorboat"
+        ];
+    },
     availablePorts() {
-      //TODO: filter ports or whatever I want to do with them
       return this.allPorts.map((p) => ({
         text: p.name,
         value: p,
       }));
     },
     availablePortsStr() {
-      //TODO: filter ports or whatever I want to do with them
       return this.allPorts.map((p) => p.name);
     },
     nameErrors() {
