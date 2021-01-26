@@ -46,7 +46,7 @@
                 <v-icon>location_on</v-icon> {{ boat.port.name }}
               </v-col>
               <v-col class="pl-2 pb-0">
-                <div class="black--text text-right">
+                <div class="black--text text-right text-truncate">
                   {{ boat.pricePerDay }} €/day
                 </div>
               </v-col>
