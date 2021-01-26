@@ -43,10 +43,10 @@
             </v-row>
             <v-row>
               <v-col class="pl-2 pb-0">
-                <v-icon>location_on</v-icon> {{ boat.port.name }}
+                <v-icon>location_on</v-icon> <div class="text-truncate">{{ boat.port.name }}</div>
               </v-col>
               <v-col class="pl-2 pb-0">
-                <div class="black--text text-right text-truncate">
+                <div class="black--text text-right">
                   {{ boat.pricePerDay }} €/day
                 </div>
               </v-col>
