@@ -703,7 +703,7 @@ export default {
     getDateInterval(r) {
       const startDate = new Date(r.startDate);
       const endDate = new Date(r.startDate);
-      endDate.setDate(startDate.getDate() + parseInt(r.durationInDays.days));
+      endDate.setDate(startDate.getDate() + parseInt(r.durationInDays.days ?r.durationInDays.days : 0));
       return `${startDate.toISOString().split("T")[0]} ~ ${
         endDate.toISOString().split("T")[0]
       }`;
