@@ -13,6 +13,9 @@ const routes = [
         path: '/adminDashboard',
         name: 'adminDashboard',
         component: AdminDashboard,
+        redirect: {
+            name: 'boatCRUD'
+        },
         meta: {
             authLevel: AUTH_LEVELS.ADMIN
         },

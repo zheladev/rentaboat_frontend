@@ -6,7 +6,6 @@
         <v-data-table
           :headers="headers"
           :items="ports"
-          sort-by="calories"
           class="elevation-1"
         >
           <template v-slot:top>
