@@ -43,7 +43,7 @@
             </v-row>
             <v-row>
               <v-col class="pl-2 pb-0">
-                <v-icon>location_on</v-icon> <div class="text-truncate">{{ boat.port.name }}</div>
+                <div class="text-truncate"> <v-icon>location_on</v-icon> {{ boat.port.name }}</div>
               </v-col>
               <v-col class="pl-2 pb-0">
                 <div class="black--text text-right">
