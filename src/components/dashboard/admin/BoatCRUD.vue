@@ -6,12 +6,7 @@
         <v-data-table :headers="headers" :items="getBoats" class="elevation-1">
           <template v-slot:top>
             <v-toolbar flat>
-              <v-btn
-                color="grey"
-                dark
-                icon
-                class="mb-2"
-              >
+              <v-btn color="grey" dark icon class="mb-2">
                 <v-icon color="grey" size="48" v-text="'add'"></v-icon>
               </v-btn>
             </v-toolbar>
@@ -75,10 +70,15 @@ export default {
           sortable: false,
           value: "ownerName",
         },
+        {
+          text: "Actions",
+          value: "actions",
+          sortable: false,
+        },
       ];
     },
     getBoats() {
-        console.log(this.allBoats)
+      console.log(this.allBoats);
       return this.allBoats.map((b) => {
         return {
           name: b.name,
